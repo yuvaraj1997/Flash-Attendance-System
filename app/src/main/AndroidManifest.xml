@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.flash.yuvar.flashattendancesystem">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.NFC" />
+
+    <uses-feature
+        android:name="android.hardware.nfc"
+        android:required="true" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/flash"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppThemeLogin"
+        tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".StudentMainActivity" />
+        <activity android:name=".LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
+        <activity android:name=".LectureMainActivity" />
+        <activity android:name=".AdminMainActivity" />
+        <activity android:name=".Admin.admin_add_class" />
+        <activity android:name=".Admin.Admin_view_class" />
+        <activity android:name=".Student.Student_join_class" />
+        <activity android:name=".Lecture.Lecture_request_acceptance">
+
+
+        </activity>
+    </application>
+
+</manifest>

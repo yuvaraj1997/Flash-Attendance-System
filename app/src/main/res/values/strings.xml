@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Flash Attendance System</string>
+
+
+    <string name="button_add_class">Add Class</string>
+    <string name="button_logout">Logout</string>
+    <string name="button_view_class">View Class</string>
+    <string name="admin_text">Admin</string>
+    <string name="subject_code">Subject Code</string>
+    <string name="no_of_section">No of Section</string>
+    <string name="add_subject">Add Subject</string>
+    <string name="join_class">Join Class</string>
+    <string name="accept">Accept</string>
+    <string name="student_name">Student Name</string>
+    <string name="request_acceptance">Request Acceptance</string>
+
+
+</resources>

@@ -21,11 +21,7 @@
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".StudentMainActivity" />
         <activity android:name=".LoginActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
 
         </activity>
         <activity android:name=".LectureMainActivity" />
@@ -34,7 +30,11 @@
         <activity android:name=".Admin.Admin_view_class" />
         <activity android:name=".Student.Student_join_class" />
         <activity android:name=".Lecture.Lecture_request_acceptance">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
 
         </activity>
     </application>

@@ -258,6 +258,7 @@ public class custom_request_adapter extends  RecyclerView.Adapter<custom_request
 
                     DatabaseReference checkduplicatedata = FirebaseDatabase.getInstance ().getReference ("student_registered_class").child(registeredID).child("student_list");
                     checkduplicatedata.addListenerForSingleValueEvent (new ValueEventListener ( ) {
+                        String text = "empty";
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             for(DataSnapshot ds: dataSnapshot.getChildren ()){
@@ -265,21 +266,27 @@ public class custom_request_adapter extends  RecyclerView.Adapter<custom_request
                                 registered_student_list = ds.getValue (student_registered_list.class);
 
                                 if(student_name.equals (registered_student_list.getName ())){
-                                    Toast.makeText(ctx, "Student Exist!",Toast.LENGTH_SHORT).show();
 
-                                }
-                                else{
-                                    DatabaseReference ref = FirebaseDatabase.getInstance ().getReference ("student_registered_class").child(registeredID).child("student_list").push ();
-
-                                    ref.setValue (registered_list);
-
-
-                                    Toast.makeText(ctx, "SuccessFull!",Toast.LENGTH_SHORT).show();
+                                    this.text = registered_student_list.getName ().toString ();
 
                                 }
 
 
 
+
+                            }
+                            if(text.equals ("empty")){
+                                DatabaseReference ref = FirebaseDatabase.getInstance ().getReference ("student_registered_class").child(registeredID).child("student_list").push ();
+
+                                ref.setValue (registered_list);
+
+
+                                Toast.makeText(ctx, "SuccessFull! Added" + text,Toast.LENGTH_SHORT).show();
+
+                            }
+                            else{
+
+                                Toast.makeText(ctx, "Student Exist! " + registered_student_list.getName (),Toast.LENGTH_SHORT).show();
                             }
 
 

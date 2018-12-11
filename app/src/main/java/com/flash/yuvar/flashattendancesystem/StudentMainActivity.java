@@ -3,15 +3,12 @@ package com.flash.yuvar.flashattendancesystem;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
-import com.flash.yuvar.flashattendancesystem.Admin.Admin_view_class;
 import com.flash.yuvar.flashattendancesystem.Student.Student_join_class;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -97,7 +94,7 @@ public class StudentMainActivity extends AppCompatActivity {
     private void joinclass() {
 
         startActivity(new Intent (StudentMainActivity.this, Student_join_class.class));
-        finish();
+
     }
 
     private void Logout(){

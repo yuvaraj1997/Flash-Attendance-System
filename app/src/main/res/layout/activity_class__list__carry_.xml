@@ -4,13 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Student.Student_join_class">
+    tools:context=".QRCode.Class_List_Carry_Activity">
 
     <ListView
-        android:id="@+id/listView"
+        android:id="@+id/recycler_view2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-    </ListView>
+        android:layout_height="wrap_content"
+        />
 
 </RelativeLayout>

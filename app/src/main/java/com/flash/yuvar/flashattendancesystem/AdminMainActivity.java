@@ -84,14 +84,14 @@ public class AdminMainActivity extends AppCompatActivity {
     private void viewclass() {
 
         startActivity(new Intent (AdminMainActivity.this, Admin_view_class.class));
-        finish();
+
     }
 
     private void addclass() {
 
 
         startActivity(new Intent (AdminMainActivity.this, admin_add_class.class));
-        finish();
+
 
 
     }

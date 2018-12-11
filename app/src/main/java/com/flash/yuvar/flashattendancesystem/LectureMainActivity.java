@@ -10,15 +10,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-
 import com.flash.yuvar.flashattendancesystem.Lecture.Lecture_request_acceptance;
-import com.flash.yuvar.flashattendancesystem.Student.Student_join_class;
+import com.flash.yuvar.flashattendancesystem.QRCode.Class_List_Carry_Activity;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class LectureMainActivity extends AppCompatActivity {
 
     private TextView lecture_id,lecture_pass;
-    private Button logout,but_request;
+    private Button logout,but_request,but_generate;
     private FirebaseAuth firebaseAuth;
     private TabLayout tabLayout;
     private AppBarLayout appBarLayout;
@@ -34,6 +33,7 @@ public class LectureMainActivity extends AppCompatActivity {
 
         logout = findViewById (R.id.logout);
         but_request = findViewById (R.id.button_request);
+        but_generate = findViewById (R.id.button_generate);
         firebaseAuth = FirebaseAuth.getInstance();
 
         if (firebaseAuth.getCurrentUser ()==null){
@@ -61,13 +61,29 @@ public class LectureMainActivity extends AppCompatActivity {
             }
         });
 
+        but_generate.setOnClickListener (new View.OnClickListener ( ) {
+            @Override
+            public void onClick(View v) {
+                generate();
+
+            }
+        });
+
 
 
     }
 
+    private void generate() {
+        Intent  i = new Intent (getApplicationContext (),Class_List_Carry_Activity.class);
+        startActivity (i);
+
+    }
+
     private void requestlist() {
-        startActivity(new Intent (LectureMainActivity.this, Lecture_request_acceptance.class));
-        finish();
+
+        Intent  i = new Intent (getApplicationContext (),Lecture_request_acceptance.class);
+        startActivity (i);
+
     }
 
     private void Logout() {

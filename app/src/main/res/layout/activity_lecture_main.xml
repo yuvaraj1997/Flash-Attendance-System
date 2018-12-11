@@ -128,6 +128,17 @@
     </LinearLayout>
 
     <Button
+        android:id="@+id/button_generate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+
+
+        android:layout_marginBottom="110dp"
+        android:text="Attendance List" />
+
+    <Button
         android:id="@+id/button_request"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

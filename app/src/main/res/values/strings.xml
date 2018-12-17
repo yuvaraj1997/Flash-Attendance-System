@@ -13,6 +13,7 @@
     <string name="accept">Accept</string>
     <string name="student_name">Student Name</string>
     <string name="request_acceptance">Request Acceptance</string>
+    <string name="scan">Scan</string>
 
 
 </resources>

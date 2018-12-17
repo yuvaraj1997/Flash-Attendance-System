@@ -281,7 +281,7 @@ public class custom_request_adapter extends  RecyclerView.Adapter<custom_request
                                 ref.setValue (registered_list);
 
 
-                                Toast.makeText(ctx, "SuccessFull! Added" + text,Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ctx, "SuccessFull! Added" ,Toast.LENGTH_SHORT).show();
 
                             }
                             else{

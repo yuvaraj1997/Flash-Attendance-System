@@ -7,6 +7,9 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.NFC" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <uses-feature
         android:name="android.hardware.nfc"
@@ -22,12 +25,12 @@
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".StudentMainActivity" />
         <activity android:name=".LoginActivity" >
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
         <activity android:name=".LectureMainActivity" />
         <activity android:name=".AdminMainActivity" />
@@ -36,13 +39,8 @@
         <activity android:name=".Student.Student_join_class" />
         <activity android:name=".Lecture.Lecture_request_acceptance" />
         <activity android:name=".QRCode.QRCode_Generate_Activity" />
-        <activity android:name=".QRCode.Class_List_Carry_Activity">
-
-        </activity>
-        <activity
-            android:name=".QRCode.QRCode_Capture_Activity"
-        >
-
+        <activity android:name=".QRCode.Class_List_Carry_Activity"
+            android:label="Class List">
 
         </activity>
         <activity android:name=".QRCode.ScanCode_Activity">

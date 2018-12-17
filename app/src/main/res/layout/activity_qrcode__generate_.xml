@@ -9,34 +9,49 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="QR Code Generator"/>
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:hint="Enter Text to generate"
+        android:text="QR Code Generator"
         android:id="@+id/text"/>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:layout_centerHorizontal="true"
-        android:text="GENERATE"
-        android:id="@+id/gen_btn"/>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="155dp"
-        android:background="@android:color/black"
-        android:id="@+id/view" />
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="500dp"
-        android:layout_below="@+id/view">
+        android:layout_height="350dp"
+        android:layout_below="@+id/text">
+
         <ImageView
+            android:id="@+id/image"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/image"/>
+            android:layout_height="match_parent" />
     </LinearLayout>
+
+    <Button
+        android:id="@+id/gen_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="89dp"
+        android:text="New Class" />
+
+    <Button
+        android:id="@+id/del_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_alignEnd="@+id/gen_btn"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="7dp"
+        android:layout_marginBottom="49dp"
+        android:text="DELETE" />
+
+    <Button
+        android:id="@+id/previous_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:text="Previous Class" />
 
 </RelativeLayout>

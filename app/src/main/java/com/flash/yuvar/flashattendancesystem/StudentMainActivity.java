@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.flash.yuvar.flashattendancesystem.QRCode.ScanCode_Activity;
 import com.flash.yuvar.flashattendancesystem.Student.Student_join_class;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -26,7 +27,7 @@ public class StudentMainActivity extends AppCompatActivity {
 
 
 
-    private Button logout,link_joinclass;
+    private Button logout,link_joinclass,btn_scan;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate (savedInstanceState);
@@ -37,6 +38,7 @@ public class StudentMainActivity extends AppCompatActivity {
         profileName=findViewById (R.id.name);
         profileCourse=findViewById (R.id.course);
         link_joinclass = findViewById (R.id.joinclass);
+        btn_scan=findViewById (R.id.scanning);
 
         firebaseAuth = FirebaseAuth.getInstance();
 
@@ -68,6 +70,13 @@ public class StudentMainActivity extends AppCompatActivity {
             }
         });
 
+        btn_scan.setOnClickListener (new View.OnClickListener ( ) {
+            @Override
+            public void onClick(View v) {
+                scanclass();
+            }
+        });
+
 
 
 
@@ -89,6 +98,10 @@ public class StudentMainActivity extends AppCompatActivity {
                 Logout();
             }
         });
+    }
+
+    private void scanclass() {
+        startActivity (new Intent (getApplicationContext (),ScanCode_Activity.class));
     }
 
     private void joinclass() {

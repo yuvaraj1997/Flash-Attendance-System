@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.flash.yuvar.flashattendancesystem.Database.attendance_list_push_qr;
 import com.flash.yuvar.flashattendancesystem.Database.student_registered_list;
 import com.flash.yuvar.flashattendancesystem.UserProfile;
 import com.google.firebase.auth.FirebaseAuth;
@@ -36,6 +37,7 @@ public class ScanCode_Activity extends AppCompatActivity implements ZXingScanner
     private student_registered_list registered_student_list;
     private String name;
     private String attendance_id;
+    private String attendance_list="attendance_list";
 
 
     @Override
@@ -243,11 +245,21 @@ public class ScanCode_Activity extends AppCompatActivity implements ZXingScanner
                                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                                         if(dataSnapshot.exists ()){
-                                            attendance_id=dataSnapshot.getKey ();
+
+
+                                            for(DataSnapshot ds:dataSnapshot.getChildren ()){
+
+                                                attendance_list_push_qr attendanceListPushQr=ds.getValue (attendance_list_push_qr.class);
+                                                setAttendance_id(attendanceListPushQr.getAttendance_list_id ());
+
+
+                                            }
+
+
 
 
                                             //Check First DUPLICATE DATE
-                                            DatabaseReference checking = FirebaseDatabase.getInstance ().getReference ("student_registered_class").child(registered_id)
+                                            DatabaseReference checking = FirebaseDatabase.getInstance ().getReference ("student_registered_class").child(registered_id).child ("attendance_list")
                                                     .child (attendance_id).child ("attendees");
 
                                             checking.addListenerForSingleValueEvent (new ValueEventListener ( ) {
@@ -259,7 +271,7 @@ public class ScanCode_Activity extends AppCompatActivity implements ZXingScanner
 
                                                         check = ds.getValue (student_registered_list.class);
 
-                                                        if(userid.equals (check.getuID ())){
+                                                        if(name.equals (check.getName ())){
                                                             check_taken="Exist";
                                                         }
 
@@ -268,11 +280,13 @@ public class ScanCode_Activity extends AppCompatActivity implements ZXingScanner
                                                     }
 
                                                     if(check_taken.equals ("Not Exist")){
-                                                        DatabaseReference ref = FirebaseDatabase.getInstance ().getReference ("student_registered_class").child(registered_id)
+                                                        DatabaseReference ref = FirebaseDatabase.getInstance ().getReference ("student_registered_class").child(registered_id).child ("attendance_list")
                                                                 .child (attendance_id).child ("attendees").push ();
-                                                        String attendees_id = ref.getKey ();
+
                                                         final student_registered_list student_registered_list = new student_registered_list (userid,name);
                                                         ref.setValue (student_registered_list );
+
+                                                       
 
                                                         Log.d("QRCodeScanner", result.getText());
                                                         Log.d("QRCodeScanner", result.getBarcodeFormat().toString());
@@ -389,6 +403,10 @@ public class ScanCode_Activity extends AppCompatActivity implements ZXingScanner
 
 
 
+    }
+
+    private void setAttendance_id(String key) {
+        this.attendance_id=key;
     }
 
     private void setName(String s) {

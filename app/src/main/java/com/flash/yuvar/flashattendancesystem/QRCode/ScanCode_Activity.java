@@ -35,6 +35,7 @@ public class ScanCode_Activity extends AppCompatActivity implements ZXingScanner
     private static int camId = Camera.CameraInfo.CAMERA_FACING_BACK;
     private student_registered_list registered_student_list;
     private String name;
+    private String attendance_id;
 
 
     @Override
@@ -149,7 +150,7 @@ public class ScanCode_Activity extends AppCompatActivity implements ZXingScanner
         final String total = classcode + " " + date;
 
 
-        FirebaseDatabase database = FirebaseDatabase.getInstance ();
+        final FirebaseDatabase database = FirebaseDatabase.getInstance ();
         DatabaseReference myref = database.getReference ("students");
 
         FirebaseUser user = FirebaseAuth.getInstance ().getCurrentUser ();
@@ -188,7 +189,7 @@ public class ScanCode_Activity extends AppCompatActivity implements ZXingScanner
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists ()){
 
-                    DatabaseReference checkduplicatedata = FirebaseDatabase.getInstance ().getReference ("student_registered_class").child(registered_id).child("student_list");
+                    final DatabaseReference checkduplicatedata = FirebaseDatabase.getInstance ().getReference ("student_registered_class").child(registered_id).child("student_list");
                     checkduplicatedata.addListenerForSingleValueEvent (new ValueEventListener ( ) {
                         String text = "empty";
                         @Override
@@ -242,12 +243,99 @@ public class ScanCode_Activity extends AppCompatActivity implements ZXingScanner
                                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                                         if(dataSnapshot.exists ()){
+                                            attendance_id=dataSnapshot.getKey ();
 
-                                            DatabaseReference ref = FirebaseDatabase.getInstance ().getReference ("student_registered_class").child(registered_id)
-                                                    .child (dataSnapshot.getKey ()).child ("attendees").push ();
-                                            String attendees_id = ref.getKey ();
-                                            final student_registered_list student_registered_list = new student_registered_list (userid,name);
-                                            ref.setValue (student_registered_list );
+
+                                            //Check First DUPLICATE DATE
+                                            DatabaseReference checking = FirebaseDatabase.getInstance ().getReference ("student_registered_class").child(registered_id)
+                                                    .child (attendance_id).child ("attendees");
+
+                                            checking.addListenerForSingleValueEvent (new ValueEventListener ( ) {
+                                                @Override
+                                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                    String check_taken = "Not Exist";
+                                                    for(DataSnapshot ds: dataSnapshot.getChildren ()){
+                                                        student_registered_list check;
+
+                                                        check = ds.getValue (student_registered_list.class);
+
+                                                        if(userid.equals (check.getuID ())){
+                                                            check_taken="Exist";
+                                                        }
+
+
+
+                                                    }
+
+                                                    if(check_taken.equals ("Not Exist")){
+                                                        DatabaseReference ref = FirebaseDatabase.getInstance ().getReference ("student_registered_class").child(registered_id)
+                                                                .child (attendance_id).child ("attendees").push ();
+                                                        String attendees_id = ref.getKey ();
+                                                        final student_registered_list student_registered_list = new student_registered_list (userid,name);
+                                                        ref.setValue (student_registered_list );
+
+                                                        Log.d("QRCodeScanner", result.getText());
+                                                        Log.d("QRCodeScanner", result.getBarcodeFormat().toString());
+
+                                                        AlertDialog.Builder builder = new AlertDialog.Builder(ScanCode_Activity.this);
+                                                        builder.setTitle("Scan Result");
+                                                        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(DialogInterface dialog, int which) {
+                                                                ScanCode_Activity.this.onBackPressed ();
+
+                                                            }
+                                                        });
+
+                                                        builder.setMessage("Attendance Taken For The Class : " + classcode  +"  Date/Time : " + date);
+                                                        AlertDialog alert1 = builder.create();
+                                                        alert1.show();
+
+
+                                                    }
+                                                    else{
+                                                        Log.d("QRCodeScanner", result.getText());
+                                                        Log.d("QRCodeScanner", result.getBarcodeFormat().toString());
+
+                                                        AlertDialog.Builder builder = new AlertDialog.Builder(ScanCode_Activity.this);
+                                                        builder.setTitle("Scan Result");
+                                                        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(DialogInterface dialog, int which) {
+                                                                ScanCode_Activity.this.onBackPressed ();
+
+                                                            }
+                                                        });
+
+                                                        builder.setMessage("Attendance Already Taken :  " + classcode  +" Mr " + name);
+                                                        AlertDialog alert1 = builder.create();
+                                                        alert1.show();
+
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                                }
+                                            });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                                         }
                                         else{
@@ -266,22 +354,7 @@ public class ScanCode_Activity extends AppCompatActivity implements ZXingScanner
                                 });
 
 
-                                Log.d("QRCodeScanner", result.getText());
-                                Log.d("QRCodeScanner", result.getBarcodeFormat().toString());
 
-                                AlertDialog.Builder builder = new AlertDialog.Builder(ScanCode_Activity.this);
-                                builder.setTitle("Scan Result");
-                                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        ScanCode_Activity.this.onBackPressed ();
-
-                                    }
-                                });
-
-                                builder.setMessage("Attendance Taken For The Class : " + classcode  +"  Date/Time : " + date);
-                                AlertDialog alert1 = builder.create();
-                                alert1.show();
                             }
 
 

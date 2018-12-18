@@ -1,16 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Admin.Admin_view_class">
 
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="9dp"
+        android:layout_marginEnd="90dp"
+        android:text="View Class"
+        android:textColor="@android:color/holo_blue_light"
+        android:textSize="35dp"
+        android:textStyle="bold" />
+
     <ListView
         android:id="@+id/listView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="500dp"
 
-    </ListView>
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="69dp" />
 
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>

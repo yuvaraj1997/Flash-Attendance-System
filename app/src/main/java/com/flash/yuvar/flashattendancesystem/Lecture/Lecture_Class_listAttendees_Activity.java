@@ -15,6 +15,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Lecture_Class_listAttendees_Activity extends AppCompatActivity {
@@ -47,6 +48,7 @@ public class Lecture_Class_listAttendees_Activity extends AppCompatActivity {
         studentlist.addValueEventListener (new ValueEventListener ( ) {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                adapter.clear ();
                 for(DataSnapshot ds: dataSnapshot.getChildren ()){
 
 
@@ -55,8 +57,10 @@ public class Lecture_Class_listAttendees_Activity extends AppCompatActivity {
                     name.add (retrieve.getName ().toString ());
 
                 }
+                Collections.sort(name);
 
                 listView.setAdapter (adapter);
+
             }
 
             @Override

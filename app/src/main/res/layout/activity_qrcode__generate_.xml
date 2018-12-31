@@ -4,24 +4,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     tools:context=".QRCode.QRCode_Generate_Activity">
 
     <TextView
+        android:id="@+id/text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="QR Code Generator"
-        android:id="@+id/text"/>
+
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="QR Code Generator" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="350dp"
-        android:layout_below="@+id/text">
+        android:layout_height="450dp"
+        android:layout_below="@+id/text"
+        android:layout_above="@+id/progressBar2">
 
-        <ImageView
-            android:id="@+id/image"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view_qr"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="450dp"/>
+
+
+
+
+
+
     </LinearLayout>
+
 
     <Button
         android:id="@+id/gen_btn"
@@ -30,28 +42,19 @@
 
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="89dp"
+        android:layout_marginBottom="14dp"
         android:text="New Class" />
 
-    <Button
-        android:id="@+id/del_btn"
+
+
+    <ProgressBar
+        android:id="@+id/progressBar2"
+        style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        android:layout_alignEnd="@+id/gen_btn"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="7dp"
-        android:layout_marginBottom="49dp"
-        android:text="DELETE" />
+        android:layout_above="@+id/gen_btn"
+        android:layout_centerHorizontal="true" />
 
-    <Button
-        android:id="@+id/previous_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="10dp"
-        android:text="Previous Class" />
 
 </RelativeLayout>

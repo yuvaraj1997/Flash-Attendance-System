@@ -19,6 +19,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Lecture_Class_listcarry_Activity extends AppCompatActivity {
@@ -50,6 +51,7 @@ public class Lecture_Class_listcarry_Activity extends AppCompatActivity {
         registeredclass.addValueEventListener (new ValueEventListener ( ) {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                adapter.clear ();
                 for(DataSnapshot ds: dataSnapshot.getChildren ()){
 
 
@@ -58,7 +60,7 @@ public class Lecture_Class_listcarry_Activity extends AppCompatActivity {
                     registeredlist2.add (retrieve.getRegisteredclassID ().toString ());
 
                 }
-
+                Collections.sort(registeredlist);
                 listView.setAdapter (adapter);
             }
 
@@ -76,6 +78,7 @@ public class Lecture_Class_listcarry_Activity extends AppCompatActivity {
                 String registeredclasscode = registeredlist2.get (position);
 
                 Intent i = new Intent (getApplicationContext (),Lecture_class_listDate_Activity.class);
+
                 i.putExtra ("CarriedClassName",classcode);
                 i.putExtra ("CarriedRegisteredClassID",registeredclasscode);
                 startActivity (i);

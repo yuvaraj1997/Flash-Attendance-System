@@ -23,6 +23,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 public class Student_join_class extends AppCompatActivity {
 
@@ -63,6 +65,7 @@ public class Student_join_class extends AppCompatActivity {
         ref.addValueEventListener (new ValueEventListener ( ) {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                adapter.clear ();
 
                 for(DataSnapshot ds: dataSnapshot.getChildren ()){
 
@@ -71,6 +74,8 @@ public class Student_join_class extends AppCompatActivity {
                     list.add(retrieve.getSubject_code ().toString ());
                     list1.add (retrieve.getSubject_id ().toString ());
                 }
+                Collections.sort(list);
+
 
                 listView.setAdapter (adapter);
 
@@ -110,6 +115,8 @@ public class Student_join_class extends AppCompatActivity {
 
 
     }
+
+
 
     private void pushrequestaccess(String ClassCode,String RegisteredUserID,String request_id,String classID) {
 

@@ -20,6 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Lecture_request_acceptance extends AppCompatActivity {
@@ -56,6 +57,7 @@ public class Lecture_request_acceptance extends AppCompatActivity {
         recyclerView.addItemDecoration(new DividerItemDecoration (this, LinearLayoutManager.VERTICAL));
 
         ref.addValueEventListener (new ValueEventListener ( ) {
+
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
@@ -73,10 +75,13 @@ public class Lecture_request_acceptance extends AppCompatActivity {
 
                 }
 
+
                 mAdapter = new custom_request_adapter (requestList);
                 RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager (getApplicationContext());
                 recyclerView.setLayoutManager(mLayoutManager);
                 recyclerView.setItemAnimator(new DefaultItemAnimator ());
+
+
 
 
                 recyclerView.setAdapter(mAdapter);

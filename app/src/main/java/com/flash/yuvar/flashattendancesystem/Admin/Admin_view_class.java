@@ -1,9 +1,9 @@
 package com.flash.yuvar.flashattendancesystem.Admin;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -18,7 +18,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Admin_view_class extends AppCompatActivity {
 
@@ -54,9 +53,10 @@ public class Admin_view_class extends AppCompatActivity {
         adapter = new ArrayAdapter<String> (this,R.layout.subject_info,R.id.subname,list);
 
         ref.addValueEventListener (new ValueEventListener ( ) {
+
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
+                adapter.clear ();
                 for(DataSnapshot ds: dataSnapshot.getChildren ()){
 
 

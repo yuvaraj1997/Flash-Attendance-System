@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".QRCode.QR_Code_End_Activity">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Class Code"
+        android:textSize="50dp"
+        android:id="@+id/class_end"
+        android:textAlignment="center"/>
+
+    <ImageView
+        android:id="@+id/qr_code_end"
+        android:layout_width="387dp"
+        android:layout_height="386dp"
+        android:layout_centerInParent="true"
+        app:srcCompat="@drawable/ic_code_scanner_auto_focus_off"
+        tools:layout_editor_absoluteX="12dp"
+        tools:layout_editor_absoluteY="136dp" />
+
+
+</RelativeLayout>

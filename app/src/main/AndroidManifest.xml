@@ -44,7 +44,10 @@
         <activity android:name=".QRCode.ScanCode_Activity" />
         <activity android:name=".Lecture.Lecture_Class_listcarry_Activity" />
         <activity android:name=".Lecture.Lecture_class_listDate_Activity" />
-        <activity android:name=".Lecture.Lecture_Class_listAttendees_Activity"></activity>
+        <activity android:name=".Lecture.Lecture_Class_listAttendees_Activity" />
+        <activity android:name=".QRCode.QRCode_Detail_Activity" />
+        <activity android:name=".QRCode.QRCode_Bigger_Activity" />
+        <activity android:name=".QRCode.QR_Code_End_Activity"></activity>
     </application>
 
 </manifest>

@@ -5,6 +5,7 @@ public class student_registered_list {
     private String uID;
     private String name;
     private Integer count;
+    private String EndDate;
 
     public student_registered_list(){
 
@@ -26,6 +27,27 @@ public class student_registered_list {
     public student_registered_list(String uID, String name) {
         this.uID = uID;
         this.name = name;
+    }
+
+    public student_registered_list(String uID, String name,Integer count) {
+        this.uID = uID;
+        this.name = name;
+        this.count = count;
+    }
+
+    public student_registered_list(String uID, String name,String EndDate) {
+        this.uID = uID;
+        this.name = name;
+
+        this.EndDate = EndDate;
+    }
+
+    public String getEndDate() {
+        return EndDate;
+    }
+
+    public void setEndDate(String endDate) {
+        EndDate = endDate;
     }
 
     public String getuID() {

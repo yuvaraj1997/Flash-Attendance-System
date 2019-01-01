@@ -244,7 +244,7 @@ public class custom_request_adapter extends  RecyclerView.Adapter<custom_request
 
     private void pushstudent(String uID, final String student_name, final String registeredID) {
 
-        final student_registered_list registered_list = new student_registered_list (uID,student_name);
+        final student_registered_list registered_list = new student_registered_list (uID,student_name,0);
 
         DatabaseReference extranode = FirebaseDatabase.getInstance ().getReference ("student_registered_class");
 

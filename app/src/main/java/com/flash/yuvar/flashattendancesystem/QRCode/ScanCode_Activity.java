@@ -25,6 +25,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.zxing.Result;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 import static android.Manifest.permission.CAMERA;
@@ -37,9 +41,11 @@ public class ScanCode_Activity extends AppCompatActivity implements ZXingScanner
     private student_registered_list registered_student_list;
     private String name;
     private String attendance_id;
-    private String attendance_list="attendance_list";
+    private String attendance_list = "attendance_list";
 
-
+    public String end;
+    public String dateandtimeid;
+    public String attendeedpushedid;
 
 
     @Override
@@ -49,29 +55,22 @@ public class ScanCode_Activity extends AppCompatActivity implements ZXingScanner
         setContentView(scannerView);
         int currentApiVersion = Build.VERSION.SDK_INT;
 
-        if(currentApiVersion >=  Build.VERSION_CODES.M)
-        {
-            if(checkPermission())
-            {
+        if (currentApiVersion >= Build.VERSION_CODES.M) {
+            if (checkPermission()) {
                 Toast.makeText(getApplicationContext(), "Permission already granted!", Toast.LENGTH_LONG).show();
-            }
-            else
-            {
+            } else {
                 requestPermission();
             }
         }
 
 
-
     }
 
-    private boolean checkPermission()
-    {
+    private boolean checkPermission() {
         return (ContextCompat.checkSelfPermission(getApplicationContext(), CAMERA) == PackageManager.PERMISSION_GRANTED);
     }
 
-    private void requestPermission()
-    {
+    private void requestPermission() {
         ActivityCompat.requestPermissions(this, new String[]{CAMERA}, REQUEST_CAMERA);
     }
 
@@ -82,7 +81,7 @@ public class ScanCode_Activity extends AppCompatActivity implements ZXingScanner
         int currentapiVersion = android.os.Build.VERSION.SDK_INT;
         if (currentapiVersion >= android.os.Build.VERSION_CODES.M) {
             if (checkPermission()) {
-                if(scannerView == null) {
+                if (scannerView == null) {
                     scannerView = new ZXingScannerView(this);
                     setContentView(scannerView);
                 }
@@ -106,9 +105,9 @@ public class ScanCode_Activity extends AppCompatActivity implements ZXingScanner
                 if (grantResults.length > 0) {
 
                     boolean cameraAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
-                    if (cameraAccepted){
+                    if (cameraAccepted) {
                         Toast.makeText(getApplicationContext(), "Permission Granted, Now you can access camera", Toast.LENGTH_LONG).show();
-                    }else {
+                    } else {
                         Toast.makeText(getApplicationContext(), "Permission Denied, You cannot access and camera", Toast.LENGTH_LONG).show();
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                             if (shouldShowRequestPermissionRationale(CAMERA)) {
@@ -144,82 +143,74 @@ public class ScanCode_Activity extends AppCompatActivity implements ZXingScanner
     public void handleResult(final Result result) {
         final String myResult = result.getText();
 
-        if(myResult.contains("End")){
+        if (myResult.contains("End")) {
             EndClass(myResult);
 
-        }
-        else{
-            int point = myResult.indexOf (" ");
-            int point2 = myResult.indexOf ("/");
+        } else {
+            int point = myResult.indexOf(" ");
+            int point2 = myResult.indexOf("/");
 
-            final String classcode = myResult.substring (0,point);
-            final String registered_id = myResult.substring (point+1,(point2));
-            final String date = myResult.substring ((point2+1),myResult.length ());
+            final String classcode = myResult.substring(0, point);
+            final String registered_id = myResult.substring(point + 1, (point2));
+            final String date = myResult.substring((point2 + 1), myResult.length());
 
             final String total = classcode + " " + date;
 
 
-            final FirebaseDatabase database = FirebaseDatabase.getInstance ();
-            DatabaseReference myref = database.getReference ("students");
+            final FirebaseDatabase database = FirebaseDatabase.getInstance();
+            DatabaseReference myref = database.getReference("students");
 
-            FirebaseUser user = FirebaseAuth.getInstance ().getCurrentUser ();
-            final String userid = user.getUid ();
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            final String userid = user.getUid();
 
 
-
-            myref.child (userid).addListenerForSingleValueEvent (new ValueEventListener( ) {
+            myref.child(userid).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    UserProfile userProfile = dataSnapshot.getValue (UserProfile.class);
+                    UserProfile userProfile = dataSnapshot.getValue(UserProfile.class);
 
 
-
-                    setName(userProfile.getUserName ().toString ());
-
+                    setName(userProfile.getUserName().toString());
 
 
                 }
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
-                    Toast.makeText (ScanCode_Activity.this,databaseError.getCode (),Toast.LENGTH_SHORT ).show ();
+                    Toast.makeText(ScanCode_Activity.this, databaseError.getCode(), Toast.LENGTH_SHORT).show();
 
                 }
             });
 
 
+            DatabaseReference extranode = FirebaseDatabase.getInstance().getReference("student_registered_class");
 
-
-
-            DatabaseReference extranode = FirebaseDatabase.getInstance ().getReference ("student_registered_class");
-
-            extranode.orderByChild ("class_name").equalTo (classcode).addListenerForSingleValueEvent (new ValueEventListener ( ) {
+            extranode.orderByChild("class_name").equalTo(classcode).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    if(dataSnapshot.exists ()){
+                    if (dataSnapshot.exists()) {
 
-                        final DatabaseReference checkduplicatedata = FirebaseDatabase.getInstance ().getReference ("student_registered_class").child(registered_id).child("student_list");
-                        checkduplicatedata.addListenerForSingleValueEvent (new ValueEventListener ( ) {
+                        final DatabaseReference checkduplicatedata = FirebaseDatabase.getInstance().getReference("student_registered_class").child(registered_id).child("student_list");
+                        checkduplicatedata.addListenerForSingleValueEvent(new ValueEventListener() {
                             String text = "empty";
+
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                                for(DataSnapshot ds: dataSnapshot.getChildren ()){
+                                for (DataSnapshot ds : dataSnapshot.getChildren()) {
 
-                                    registered_student_list = ds.getValue (student_registered_list.class);
+                                    registered_student_list = ds.getValue(student_registered_list.class);
 
-                                    if(name.equals (registered_student_list.getName ())){
+                                    if (name.equals(registered_student_list.getName())) {
 
-                                        this.text = registered_student_list.getName ();
+                                        this.text = registered_student_list.getName();
 
 
                                     }
 
 
-
-
                                 }
-                                if(text.equals ("empty")){
+                                if (text.equals("empty")) {
                                     Log.d("QRCodeScanner", result.getText());
                                     Log.d("QRCodeScanner", result.getBarcodeFormat().toString());
 
@@ -228,71 +219,65 @@ public class ScanCode_Activity extends AppCompatActivity implements ZXingScanner
                                     builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-                                            ScanCode_Activity.this.onBackPressed ();
+                                            ScanCode_Activity.this.onBackPressed();
 
                                         }
                                     });
 
-                                    builder.setMessage("You Didnt Enroll In This Class : " + classcode );
+                                    builder.setMessage("You Didnt Enroll In This Class : " + classcode);
                                     AlertDialog alert1 = builder.create();
                                     alert1.show();
 
 
+                                } else {
 
 
+                                    DatabaseReference attendees = FirebaseDatabase.getInstance().getReference("student_registered_class").child(registered_id).child("attendance_list");
 
-                                }
-                                else{
-
-
-                                    DatabaseReference attendees = FirebaseDatabase.getInstance ().getReference ("student_registered_class").child (registered_id).child ("attendance_list");
-
-                                    attendees.orderByChild ("dateandtime").equalTo (total).addListenerForSingleValueEvent (new ValueEventListener ( ) {
+                                    attendees.orderByChild("dateandtime").equalTo(total).addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                            if(dataSnapshot.exists ()){
+                                            if (dataSnapshot.exists()) {
 
 
-                                                for(DataSnapshot ds:dataSnapshot.getChildren ()){
 
-                                                    attendance_list_push_qr attendanceListPushQr=ds.getValue (attendance_list_push_qr.class);
-                                                    setAttendance_id(attendanceListPushQr.getAttendance_list_id ());
+
+                                                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+
+                                                    attendance_list_push_qr attendanceListPushQr = ds.getValue(attendance_list_push_qr.class);
+                                                    setAttendance_id(attendanceListPushQr.getAttendance_list_id());
 
 
                                                 }
 
 
-
-
                                                 //Check First DUPLICATE DATE
-                                                DatabaseReference checking = FirebaseDatabase.getInstance ().getReference ("student_registered_class").child(registered_id).child ("attendance_list")
-                                                        .child (attendance_id).child ("attendees");
+                                                DatabaseReference checking = FirebaseDatabase.getInstance().getReference("student_registered_class").child(registered_id).child("attendance_list")
+                                                        .child(attendance_id).child("attendees");
 
-                                                checking.addListenerForSingleValueEvent (new ValueEventListener ( ) {
+                                                checking.addListenerForSingleValueEvent(new ValueEventListener() {
                                                     @Override
                                                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                                         String check_taken = "Not Exist";
-                                                        for(DataSnapshot ds: dataSnapshot.getChildren ()){
+                                                        for (DataSnapshot ds : dataSnapshot.getChildren()) {
                                                             student_registered_list check;
 
-                                                            check = ds.getValue (student_registered_list.class);
+                                                            check = ds.getValue(student_registered_list.class);
 
-                                                            if(name.equals (check.getName ())){
-                                                                check_taken="Exist";
+                                                            if (name.equals(check.getName())) {
+                                                                check_taken = "Exist";
                                                             }
-
 
 
                                                         }
 
-                                                        if(check_taken.equals ("Not Exist")){
-                                                            DatabaseReference ref = FirebaseDatabase.getInstance ().getReference ("student_registered_class").child(registered_id).child ("attendance_list")
-                                                                    .child (attendance_id).child ("attendees").push ();
+                                                        if (check_taken.equals("Not Exist")) {
+                                                            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("student_registered_class").child(registered_id).child("attendance_list")
+                                                                    .child(attendance_id).child("attendees").push();
 
-                                                            final student_registered_list student_registered_list = new student_registered_list (userid,name);
-                                                            ref.setValue (student_registered_list );
-
+                                                            final student_registered_list student_registered_list = new student_registered_list(userid, name);
+                                                            ref.setValue(student_registered_list);
 
 
                                                             Log.d("QRCodeScanner", result.getText());
@@ -303,18 +288,17 @@ public class ScanCode_Activity extends AppCompatActivity implements ZXingScanner
                                                             builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                                                 @Override
                                                                 public void onClick(DialogInterface dialog, int which) {
-                                                                    ScanCode_Activity.this.onBackPressed ();
+                                                                    ScanCode_Activity.this.onBackPressed();
 
                                                                 }
                                                             });
 
-                                                            builder.setMessage("Attendance Taken For The Class : " + classcode  +"  Date/Time : " + date);
+                                                            builder.setMessage("Attendance Taken For The Class : " + classcode + "  Date/Time : " + date);
                                                             AlertDialog alert1 = builder.create();
                                                             alert1.show();
 
 
-                                                        }
-                                                        else{
+                                                        } else {
                                                             Log.d("QRCodeScanner", result.getText());
                                                             Log.d("QRCodeScanner", result.getBarcodeFormat().toString());
 
@@ -323,12 +307,12 @@ public class ScanCode_Activity extends AppCompatActivity implements ZXingScanner
                                                             builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                                                 @Override
                                                                 public void onClick(DialogInterface dialog, int which) {
-                                                                    ScanCode_Activity.this.onBackPressed ();
+                                                                    ScanCode_Activity.this.onBackPressed();
 
                                                                 }
                                                             });
 
-                                                            builder.setMessage("Attendance Already Taken :  " + classcode  +" Mr " + name);
+                                                            builder.setMessage("Attendance Already Taken :  " + classcode + " Mr " + name);
                                                             AlertDialog alert1 = builder.create();
                                                             alert1.show();
 
@@ -340,8 +324,7 @@ public class ScanCode_Activity extends AppCompatActivity implements ZXingScanner
 
                                                     }
                                                 });
-                                            }
-                                            else{
+                                            } else {
 
                                             }
 
@@ -352,7 +335,6 @@ public class ScanCode_Activity extends AppCompatActivity implements ZXingScanner
 
                                         }
                                     });
-
 
 
                                 }
@@ -367,10 +349,7 @@ public class ScanCode_Activity extends AppCompatActivity implements ZXingScanner
                         });
 
 
-
-                    }
-
-                    else{
+                    } else {
 
                     }
                 }
@@ -383,41 +362,275 @@ public class ScanCode_Activity extends AppCompatActivity implements ZXingScanner
         }
 
 
-
-
-
-
-
-
-
-
-
     }
 
     private void EndClass(String myResult) {
 
-        int ori = myResult.indexOf ("d");
-        String original = myResult.substring(ori+1,myResult.length());
+        int ori = myResult.indexOf("d");
+        String original = myResult.substring(ori + 1, myResult.length());
 
-        int point = original.indexOf (" ");
-        int point2 = original.indexOf ("/");
+        int point = original.indexOf(" ");
+        int point2 = original.indexOf("/");
 
-        final String classcode = original.substring (0,point);
-        final String registered_id = original.substring (point+1,(point2));
-        final String date = original.substring ((point2+1),original.length ());
+        final String classcode = original.substring(0, point);
+        final String registered_id = original.substring(point + 1, (point2));
+        final String date = original.substring((point2 + 1), original.length());
 
         final String total = date;
 
 
-        final FirebaseDatabase database = FirebaseDatabase.getInstance ();
-        DatabaseReference myref = database.getReference ("students");
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myref = database.getReference("students");
 
-        FirebaseUser user = FirebaseAuth.getInstance ().getCurrentUser ();
-        final String userid = user.getUid ();
-
-
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        final String userid = user.getUid();
 
 
+        myref.child(userid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                UserProfile userProfile = dataSnapshot.getValue(UserProfile.class);
+
+
+                setName(userProfile.getUserName().toString());
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(ScanCode_Activity.this, databaseError.getCode(), Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+        DatabaseReference extranode = FirebaseDatabase.getInstance().getReference("student_registered_class");
+
+        extranode.orderByChild("class_name").equalTo(classcode).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+
+                    final DatabaseReference checkduplicatedata = FirebaseDatabase.getInstance().getReference("student_registered_class").child(registered_id).child("student_list");
+                    checkduplicatedata.addListenerForSingleValueEvent(new ValueEventListener() {
+                        String text = "empty";
+
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                            for (DataSnapshot ds : dataSnapshot.getChildren()) {
+
+                                registered_student_list = ds.getValue(student_registered_list.class);
+
+                                if (name.equals(registered_student_list.getName())) {
+
+                                    this.text = registered_student_list.getName();
+
+
+                                }
+
+
+                            }
+                            if (text.equals("empty")) {
+
+                                AlertDialog.Builder builder = new AlertDialog.Builder(ScanCode_Activity.this);
+                                builder.setTitle("Scan Result");
+                                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        ScanCode_Activity.this.onBackPressed();
+
+                                    }
+                                });
+
+                                builder.setMessage("You Didnt Enroll In This Class : " + classcode);
+                                AlertDialog alert1 = builder.create();
+                                alert1.show();
+
+
+                            } else {
+
+
+                                DatabaseReference attendees = FirebaseDatabase.getInstance().getReference("student_registered_class").child(registered_id).child("attendance_list");
+
+                                attendees.orderByChild("dateandtime").equalTo(total).addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                        if (dataSnapshot.exists()) {
+
+
+                                            for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                                                setDateandtimeid(ds.getKey());
+
+                                                attendance_list_push_qr attendanceListPushQr = ds.getValue(attendance_list_push_qr.class);
+                                                setAttendance_id(attendanceListPushQr.getAttendance_list_id());
+
+
+                                            }
+
+
+                                            //Check First DUPLICATE DATE
+                                            DatabaseReference checking = FirebaseDatabase.getInstance().getReference("student_registered_class").child(registered_id).child("attendance_list")
+                                                    .child(attendance_id).child("attendees");
+
+                                            checking.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                    String check_taken = "Not Exist";
+                                                    for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                                                        student_registered_list check;
+
+                                                        check = ds.getValue(student_registered_list.class);
+
+                                                        if (name.equals(check.getName())) {
+                                                            setAttendeesPushedId(ds.getKey());
+                                                            check_taken = "Exist";
+                                                        }
+
+
+                                                    }
+
+                                                    if (check_taken.equals("Not Exist")) {
+
+
+
+
+                                                        AlertDialog.Builder builder = new AlertDialog.Builder(ScanCode_Activity.this);
+                                                        builder.setTitle("Scan Result");
+                                                        builder.setPositiveButton("Exit", new DialogInterface.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(DialogInterface dialog, int which) {
+                                                                ScanCode_Activity.this.onBackPressed();
+
+                                                            }
+                                                        });
+
+                                                        builder.setMessage("Late to class please refer to Lecure");
+                                                        AlertDialog alert1 = builder.create();
+                                                        alert1.show();
+
+
+                                                    } else {
+
+
+
+
+                                                        DatabaseReference checkend= FirebaseDatabase.getInstance().getReference("student_registered_class").child(registered_id).child("attendance_list")
+                                                                .child(dateandtimeid).child("attendees").child(attendeedpushedid);
+
+                                                        checkend.child("endDate").addListenerForSingleValueEvent(new ValueEventListener() {
+                                                            private String end;
+
+                                                            @Override
+                                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                                                if(dataSnapshot.exists()){
+                                                                    this.end = "Exist";
+                                                                }
+                                                                else{
+                                                                    this.end = "Not Exist";
+                                                                }
+
+                                                                if(end.equals("Not Exist")){
+
+                                                                    final DatabaseReference retrievecount = FirebaseDatabase.getInstance().getReference("student_registered_class").child(registered_id).child("student_list");
+
+
+                                                                    retrievecount.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                                        Integer count ;
+                                                                        @Override
+                                                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                                            for (DataSnapshot ds : dataSnapshot.getChildren()) {
+
+
+                                                                                registered_student_list = ds.getValue(student_registered_list.class);
+
+                                                                                if (name.equals(registered_student_list.getName())) {
+
+
+
+
+
+                                                                                    this.count = registered_student_list.getCount();
+
+                                                                                    count++;
+                                                                                    DatabaseReference update = FirebaseDatabase.getInstance().getReference("student_registered_class").child(registered_id).child("student_list")
+                                                                                            .child(ds.getKey().toString());
+
+                                                                                    student_registered_list push = new student_registered_list(userid,name,count);
+                                                                                    update.setValue(push);
+
+                                                                                    DatabaseReference updateattendees= FirebaseDatabase.getInstance().getReference("student_registered_class").child(registered_id).child("attendance_list")
+                                                                                            .child(dateandtimeid).child("attendees").child(attendeedpushedid);
+
+                                                                                    String enddate = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss ", Locale.getDefault()).format(new Date());
+
+                                                                                    student_registered_list pushupdated = new student_registered_list(userid,name,enddate);
+
+                                                                                    updateattendees.setValue(pushupdated);
+
+
+
+
+
+                                                                                    AlertDialog.Builder builder = new AlertDialog.Builder(ScanCode_Activity.this);
+                                                                                    builder.setTitle("Scan Result");
+                                                                                    builder.setPositiveButton("End", new DialogInterface.OnClickListener() {
+                                                                                        @Override
+                                                                                        public void onClick(DialogInterface dialog, int which) {
+                                                                                            ScanCode_Activity.this.onBackPressed();
+
+                                                                                        }
+                                                                                    });
+                                                                                    builder.setMessage("Attendance Complete ");
+                                                                                    AlertDialog alert1 = builder.create();
+                                                                                    alert1.show();
+
+
+                                                                                }
+
+                                                                            }
+
+                                                                        }
+
+                                                                        @Override
+                                                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                                                        }
+                                                                    });
+
+
+
+                                                                } else{
+                                                                    AlertDialog.Builder builder = new AlertDialog.Builder(ScanCode_Activity.this);
+                                                                    builder.setTitle("Scan Result");
+                                                                    builder.setPositiveButton("Exit", new DialogInterface.OnClickListener() {
+                                                                        @Override
+                                                                        public void onClick(DialogInterface dialog, int which) {
+                                                                            ScanCode_Activity.this.onBackPressed();
+
+                                                                        }
+                                                                    });
+
+                                                                    builder.setMessage("Class Already Ended");
+                                                                    AlertDialog alert1 = builder.create();
+                                                                    alert1.show();
+
+
+                                                                }
+
+                                                            }
+
+                                                            @Override
+                                                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                                            }
+
+
+
+
+                                                        });
 
 
 
@@ -428,7 +641,70 @@ public class ScanCode_Activity extends AppCompatActivity implements ZXingScanner
 
 
 
+
+
+
+
+
+
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                                }
+                                            });
+                                        } else {
+
+                                        }
+
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                    }
+                                });
+
+
+                            }
+
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+
+                } else {
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
+
+
+
+    private void setAttendeesPushedId(String key) {
+        this.attendeedpushedid =key;
+    }
+
+    private void setDateandtimeid(String key) {
+        this.dateandtimeid = key;
+    }
+
+    private void setEnd(String endDate) {
+        this.end = endDate;
+    }
+
 
     private void setAttendance_id(String key) {
         this.attendance_id=key;

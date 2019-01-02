@@ -209,9 +209,10 @@ public class QRCode_Generate_Activity extends AppCompatActivity {
 
     private void saveBitmap(Bitmap bitmap) {
 
+        String total = carriedclasscode + " "+date;
 
 
-        mStorage = FirebaseStorage.getInstance().getReferenceFromUrl("gs://flash-attendance-system.appspot.com/QRCode/"+finalTotal);
+        mStorage = FirebaseStorage.getInstance().getReferenceFromUrl("gs://flash-attendance-system.appspot.com/QRCode/"+total);
 
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();

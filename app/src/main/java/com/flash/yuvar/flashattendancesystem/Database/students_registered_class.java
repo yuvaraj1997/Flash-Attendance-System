@@ -5,6 +5,7 @@ public class students_registered_class {
     String class_name;
     String classID;
     String registeredclassID;
+    String secretkey;
 
 
     public students_registered_class(){
@@ -15,6 +16,19 @@ public class students_registered_class {
         this.class_name = class_name;
         this.classID = classID;
         this.registeredclassID = registeredclassID;
+    }
+
+    public students_registered_class(String secretkey) {
+
+        this.secretkey = secretkey;
+    }
+
+    public String getSecretkey() {
+        return secretkey;
+    }
+
+    public void setSecretkey(String secretkey) {
+        this.secretkey = secretkey;
     }
 
     public String getClass_name() {

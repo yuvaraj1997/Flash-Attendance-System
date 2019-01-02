@@ -19,7 +19,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class Class_List_Carry_Activity extends AppCompatActivity {
@@ -60,7 +59,7 @@ public class Class_List_Carry_Activity extends AppCompatActivity {
                     registeredlist2.add (retrieve.getRegisteredclassID ().toString ());
 
                 }
-                Collections.sort(registeredlist);
+
 
                 listView.setAdapter (adapter);
             }

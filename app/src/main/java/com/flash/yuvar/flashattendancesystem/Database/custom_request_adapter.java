@@ -114,11 +114,12 @@ public class custom_request_adapter extends  RecyclerView.Adapter<custom_request
 
                 databaseReference = FirebaseDatabase.getInstance ().getReference ("student_registered_class");
 
+
+                Request_access request_access =requestList.get(position);
                 final String registered_class_id = databaseReference.push ().getKey ();
                 final String class_Code = request_access.getClass_Code ();
                 final String class_id = request_access.getClassID ();
                 final String uID = request_access.getUserID ();
-
 
 
 
@@ -217,8 +218,8 @@ public class custom_request_adapter extends  RecyclerView.Adapter<custom_request
 
 
 
-                Request_access request_access =requestList.get(position);
-                DatabaseReference remove = FirebaseDatabase.getInstance ( ).getReference ( ).child ("request_access").child (request_access.getRequest_id ());
+                Request_access request_access2 =requestList.get(position);
+                DatabaseReference remove = FirebaseDatabase.getInstance ( ).getReference ( ).child ("request_access").child (request_access2.getRequest_id ());
                 remove.removeValue ();
                 requestList.remove (position);
                 notifyDataSetChanged ();
@@ -286,7 +287,7 @@ public class custom_request_adapter extends  RecyclerView.Adapter<custom_request
                             }
                             else{
 
-                                Toast.makeText(ctx, "Student Exist! " + registered_student_list.getName (),Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(ctx, "Student Exist! " + registered_student_list.getName (),Toast.LENGTH_SHORT).show();
                             }
 
 

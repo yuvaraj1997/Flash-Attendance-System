@@ -17,7 +17,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.flash.yuvar.flashattendancesystem.Database.QR_Code_Generator_adapter;
+import com.flash.yuvar.flashattendancesystem.Adapters.QR_Code_Generator_adapter;
 import com.flash.yuvar.flashattendancesystem.Database.attendance_list_push_qr;
 import com.flash.yuvar.flashattendancesystem.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -39,6 +39,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 
 import androidmads.library.qrgenearator.QRGContents;
 import androidmads.library.qrgenearator.QRGEncoder;
@@ -212,7 +213,7 @@ public class QRCode_Generate_Activity extends AppCompatActivity {
         String total = carriedclasscode + " "+date;
 
 
-        mStorage = FirebaseStorage.getInstance().getReferenceFromUrl("gs://flash-attendance-system.appspot.com/QRCode/"+total);
+        mStorage = FirebaseStorage.getInstance().getReferenceFromUrl("gs://flash-attendance-system.appspot.com/"+carriedclasscode+"/"+total);
 
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -265,7 +266,11 @@ public class QRCode_Generate_Activity extends AppCompatActivity {
                     if(Url!=null){
                         DatabaseReference ref = FirebaseDatabase.getInstance ().getReference ("student_registered_class").child(carriedregisteredid).child("attendance_list").push ();
                         String attendance_id = ref.getKey ();
-                        final attendance_list_push_qr attendance_list = new attendance_list_push_qr (finalTotal,attendance_id,Url);
+                        final String password = randomString(4);
+
+
+
+                        final attendance_list_push_qr attendance_list = new attendance_list_push_qr (finalTotal,attendance_id,Url,password);
                         ref.setValue (attendance_list );
 
 
@@ -297,6 +302,21 @@ public class QRCode_Generate_Activity extends AppCompatActivity {
             }
         });
 
+
+
+    }
+
+    public static final String DATA = "0123456789";
+    public static Random RANDOM = new Random();
+
+    public static String randomString(int len) {
+        StringBuilder sb = new StringBuilder(len);
+
+        for (int i = 0; i < len; i++) {
+            sb.append(DATA.charAt(RANDOM.nextInt(DATA.length())));
+        }
+
+        return sb.toString();
     }
 
 

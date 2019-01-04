@@ -33,7 +33,9 @@
         </activity>
         <activity android:name=".LectureMainActivity" />
         <activity android:name=".AdminMainActivity" />
-        <activity android:name=".Admin.admin_add_class" />
+        <activity android:name=".Admin.admin_add_class" >
+
+        </activity>
         <activity android:name=".Admin.Admin_view_class" />
         <activity android:name=".Student.Student_join_class" />
         <activity android:name=".Lecture.Lecture_request_acceptance" />

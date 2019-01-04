@@ -6,7 +6,7 @@ public class attendance_list_push_qr {
     String dateandtime;
     String attendance_list_id;
     String uri;
-
+    String password;
     public attendance_list_push_qr(){
 
     }
@@ -16,6 +16,21 @@ public class attendance_list_push_qr {
         this.dateandtime = dateandtime;
         this.attendance_list_id = attendance_list_id;
         this.uri = uri;
+    }
+
+    public attendance_list_push_qr(String dateandtime, String attendance_list_id, String uri,String password) {
+        this.dateandtime = dateandtime;
+        this.attendance_list_id = attendance_list_id;
+        this.uri = uri;
+        this.password = password;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getUri() {

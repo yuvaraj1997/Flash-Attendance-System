@@ -6,16 +6,26 @@ public class Request_access {
     private String userID;
     private String request_id;
     private String classID;
+    private String lecture_name;
 
     public Request_access(){
 
     }
 
-    public Request_access(String class_Code, String userID, String request_id,String classID) {
+    public Request_access(String class_Code, String userID, String request_id,String classID,String lecture_name) {
         this.class_Code = class_Code;
         this.userID = userID;
         this.request_id = request_id;
         this.classID = classID;
+        this.lecture_name=lecture_name;
+    }
+
+    public String getLecture_name() {
+        return lecture_name;
+    }
+
+    public void setLecture_name(String lecture_name) {
+        this.lecture_name = lecture_name;
     }
 
     public String getClassID() {

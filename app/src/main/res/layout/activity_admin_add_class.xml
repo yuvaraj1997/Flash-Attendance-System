@@ -30,6 +30,20 @@
     </android.support.design.widget.TextInputLayout>
 
 
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/spinner">
+
+    </Spinner>
+
+
+
+
+
+
+
     <ProgressBar
         android:id="@+id/loading"
         android:layout_marginTop="30dp"
@@ -42,9 +56,10 @@
         android:id="@+id/add"
         android:layout_width="match_parent"
         android:layout_height="55dp"
+        android:layout_marginTop="20dp"
         android:backgroundTint="@color/blue"
         android:text="@string/add_subject"
-        android:layout_marginTop="20dp"
+
         android:textColor="@android:color/white" />
 
 

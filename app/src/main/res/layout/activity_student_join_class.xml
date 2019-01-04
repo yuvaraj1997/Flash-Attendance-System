@@ -12,20 +12,20 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="7dp"
-        android:layout_marginEnd="21dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="32dp"
         android:text="Choose Class To Join"
-        android:textColor="@android:color/holo_blue_light"
         android:textSize="35dp"
         android:textStyle="bold" />
 
-    <ListView
-        android:id="@+id/listView"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view_joinclass"
         android:layout_width="match_parent"
-        android:layout_height="500dp"
-
+        android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true" />
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="106dp" />
 
 
 </RelativeLayout>

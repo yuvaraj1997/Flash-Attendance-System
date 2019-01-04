@@ -1,4 +1,4 @@
-package com.flash.yuvar.flashattendancesystem.Database;
+package com.flash.yuvar.flashattendancesystem.Adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -10,6 +10,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.flash.yuvar.flashattendancesystem.Database.Request_access;
+import com.flash.yuvar.flashattendancesystem.Database.student_registered_list;
+import com.flash.yuvar.flashattendancesystem.Database.students_registered_class;
 import com.flash.yuvar.flashattendancesystem.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -27,6 +30,7 @@ public class custom_request_adapter extends  RecyclerView.Adapter<custom_request
     private students_registered_class registered_class;
     private student_registered_list registered_student_list;
     private int i = 1;
+
 
 
     private Context ctx;
@@ -69,9 +73,19 @@ public class custom_request_adapter extends  RecyclerView.Adapter<custom_request
 
         final Request_access request_access =requestList.get(position);
 
-        DatabaseReference jLoginDatabase = FirebaseDatabase.getInstance ( ).getReference ( ).child ("students").child (request_access.getUserID ());
+
+
+
+        DatabaseReference jLoginDatabase = FirebaseDatabase.getInstance ( ).getReference ( ).child ("users").child (request_access.getUserID ());
         holder.classcode.setText(request_access.getClass_Code ());
         holder.student_name.setText(request_access.getUserID ());
+
+
+
+
+
+
+
 
 
         jLoginDatabase.addValueEventListener (new ValueEventListener ( ) {
@@ -120,6 +134,7 @@ public class custom_request_adapter extends  RecyclerView.Adapter<custom_request
                 final String class_Code = request_access.getClass_Code ();
                 final String class_id = request_access.getClassID ();
                 final String uID = request_access.getUserID ();
+                final String lecture_name = request_access.getLecture_name();
 
 
 
@@ -186,7 +201,7 @@ public class custom_request_adapter extends  RecyclerView.Adapter<custom_request
 
                         }
                         else{
-                            pushregisteredclass (class_Code,class_id,registered_class_id);
+                            pushregisteredclass (class_Code,class_id,registered_class_id,lecture_name);
 
                             DatabaseReference jLoginDatabase = FirebaseDatabase.getInstance ( ).getReference ( ).child ("students").child (uID);
                             jLoginDatabase.addValueEventListener (new ValueEventListener ( ) {
@@ -337,11 +352,11 @@ public class custom_request_adapter extends  RecyclerView.Adapter<custom_request
 
     }
 
-    private void pushregisteredclass(String classcode, String classid, String registeredclassID) {
+    private void pushregisteredclass(String classcode, String classid, String registeredclassID,String lecture_name) {
 
 
 
-        students_registered_class registered_class = new students_registered_class (classcode,classid,registeredclassID);
+        students_registered_class registered_class = new students_registered_class (classcode,classid,registeredclassID,lecture_name);
         this.classcode=classcode;
 
 

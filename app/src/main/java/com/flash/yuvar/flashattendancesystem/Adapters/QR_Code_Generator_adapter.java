@@ -1,4 +1,4 @@
-package com.flash.yuvar.flashattendancesystem.Database;
+package com.flash.yuvar.flashattendancesystem.Adapters;
 
 
 import android.content.Context;
@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.flash.yuvar.flashattendancesystem.Database.attendance_list_push_qr;
 import com.flash.yuvar.flashattendancesystem.QRCode.QRCode_Detail_Activity;
 import com.flash.yuvar.flashattendancesystem.R;
 import com.squareup.picasso.Picasso;

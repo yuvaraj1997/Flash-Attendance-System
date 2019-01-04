@@ -2,7 +2,6 @@ package com.flash.yuvar.flashattendancesystem;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -101,7 +100,7 @@ public class LoginActivity extends AppCompatActivity {
                     FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
                     String RegisteredUserID = currentUser.getUid();
 
-                    DatabaseReference jLoginDatabase = FirebaseDatabase.getInstance ( ).getReference ( ).child ("students").child (RegisteredUserID);
+                    DatabaseReference jLoginDatabase = FirebaseDatabase.getInstance ( ).getReference ( ).child ("users").child (RegisteredUserID);
 
                     jLoginDatabase.addValueEventListener (new ValueEventListener ( ) {
 

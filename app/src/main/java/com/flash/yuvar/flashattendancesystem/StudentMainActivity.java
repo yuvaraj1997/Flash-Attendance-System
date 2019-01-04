@@ -47,7 +47,7 @@ public class StudentMainActivity extends AppCompatActivity {
             startActivity (new Intent (this,LoginActivity.class));
         }
         FirebaseDatabase database = FirebaseDatabase.getInstance ();
-        DatabaseReference myref = database.getReference ("students");
+        DatabaseReference myref = database.getReference ("users");
 
         FirebaseUser user = FirebaseAuth.getInstance ().getCurrentUser ();
         String userid = user.getUid ();

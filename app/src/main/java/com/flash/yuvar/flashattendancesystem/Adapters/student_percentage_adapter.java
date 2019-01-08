@@ -64,7 +64,8 @@ public class student_percentage_adapter extends RecyclerView.Adapter<student_per
         holder.student_name.setText(list.getName().trim());
 
 
-        holder.student_percentage.setText(list.getCount().toString() + "%");
+        //holder.student_percentage.setText(list.getCount1().toString() + "%");
+        holder.student_percentage.setText(String.format("%.2f ", list.getCount1())+"%");
 
 
 

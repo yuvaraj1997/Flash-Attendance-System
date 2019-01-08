@@ -7,7 +7,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.Toast;
 
 import com.flash.yuvar.flashattendancesystem.Adapters.student_percentage_adapter;
 import com.flash.yuvar.flashattendancesystem.Database.student_registered_list;
@@ -46,6 +45,31 @@ public class Lecture_Student_List extends AppCompatActivity {
 
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
 
+        DatabaseReference ref2 = FirebaseDatabase.getInstance().getReference("student_registered_class").child(carriedregisteredid).child("attendance_list");
+
+        ref2.addListenerForSingleValueEvent(new ValueEventListener() {
+            Integer count=0;
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot ds: dataSnapshot.getChildren()){
+
+                    count++;
+                }
+
+
+
+                setOriginalCount(count);
+
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("student_registered_class").child(carriedregisteredid).child("student_list");
 
         ref.addValueEventListener (new ValueEventListener( ) {
@@ -60,36 +84,22 @@ public class Lecture_Student_List extends AppCompatActivity {
 
                     retrieve = ds.getValue (student_registered_list.class);
 
-                    setOriginalCount(retrieve.getCount());
-
-                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference("student_registered_class").child(carriedregisteredid).child("attendance_list");
-
-                    ref.addListenerForSingleValueEvent(new ValueEventListener() {
-                        Integer count=0;
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            for(DataSnapshot ds: dataSnapshot.getChildren()){
-                                Toast.makeText(Lecture_Student_List.this, "passing", Toast.LENGTH_SHORT).show();
-                                count++;
-                            }
-
-                            //Integer percentage = (originalcount/count)*100;
-
-                            //setPercentage(percentage);
 
 
 
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                        }
-                    });
+                    Double percentage = ((double)retrieve.getCount()/originalcount) * 100;
 
 
 
-                    student_registered_list list= new student_registered_list (retrieve.getuID(),retrieve.getName(),retrieve.getCount());
+
+     
+
+
+
+
+
+
+                    student_registered_list list= new student_registered_list (retrieve.getuID(),retrieve.getName(),percentage);
 
                     requestList.add(list);
 

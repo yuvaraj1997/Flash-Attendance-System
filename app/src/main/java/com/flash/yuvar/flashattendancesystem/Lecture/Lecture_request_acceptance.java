@@ -41,6 +41,7 @@ public class Lecture_request_acceptance extends AppCompatActivity {
 
     public Button button_delete;
     private String lecturename;
+    private String carriedclasscode;
 
     DatabaseReference databaseReference;
 
@@ -48,7 +49,7 @@ public class Lecture_request_acceptance extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate (savedInstanceState);
         setContentView (R.layout.activity_lecture_request_acceptance);
-
+        carriedclasscode = getIntent ().getExtras ().getString ("CarriedClassName");
 
         retrieve = new Request_access ();
         recyclerView = (RecyclerView) findViewById (R.id.recycler_view);
@@ -98,7 +99,7 @@ public class Lecture_request_acceptance extends AppCompatActivity {
 
                     Request_access request_access= new Request_access (retrieve.getClass_Code (),retrieve.getUserID (),retrieve.getRequest_id (),retrieve.getClassID (),retrieve.getLecture_name());
 
-                    if(lecturename.equals(retrieve.getLecture_name())){
+                    if(lecturename.equals(retrieve.getLecture_name()) && carriedclasscode.equals(retrieve.getClass_Code())){
                         requestList.add(request_access);
 
                     }
@@ -107,7 +108,12 @@ public class Lecture_request_acceptance extends AppCompatActivity {
 
 
 
+
+
+
+
                 }
+
 
 
                 mAdapter = new custom_request_adapter (requestList);
@@ -116,9 +122,7 @@ public class Lecture_request_acceptance extends AppCompatActivity {
                 recyclerView.setItemAnimator(new DefaultItemAnimator ());
 
 
-                if(requestList.isEmpty()){
-                    finish();
-                }
+
 
                 recyclerView.setAdapter(mAdapter);
 

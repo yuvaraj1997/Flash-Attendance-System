@@ -11,8 +11,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.flash.yuvar.flashattendancesystem.Lecture.Lecture_Class_listcarry_Activity;
-import com.flash.yuvar.flashattendancesystem.Lecture.Lecture_request_acceptance;
-import com.flash.yuvar.flashattendancesystem.QRCode.Class_List_Carry_Activity;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class LectureMainActivity extends AppCompatActivity {
@@ -33,8 +31,7 @@ public class LectureMainActivity extends AppCompatActivity {
 
 
         logout = findViewById (R.id.logout);
-        but_request = findViewById (R.id.button_request);
-        but_generate = findViewById (R.id.button_generate);
+
         but_viewclass=findViewById (R.id.button_viewclass);
         firebaseAuth = FirebaseAuth.getInstance();
 
@@ -47,12 +44,7 @@ public class LectureMainActivity extends AppCompatActivity {
         tabLayout = (TabLayout) findViewById (R.id.tablayout_id);
         viewPager = (ViewPager) findViewById (R.id.viewpager_id);
 
-        but_request.setOnClickListener (new View.OnClickListener ( ) {
-            @Override
-            public void onClick(View v) {
-                requestlist();
-            }
-        });
+
 
 
 
@@ -63,13 +55,7 @@ public class LectureMainActivity extends AppCompatActivity {
             }
         });
 
-        but_generate.setOnClickListener (new View.OnClickListener ( ) {
-            @Override
-            public void onClick(View v) {
-                generate();
 
-            }
-        });
 
         but_viewclass.setOnClickListener (new View.OnClickListener ( ) {
             @Override
@@ -87,18 +73,9 @@ public class LectureMainActivity extends AppCompatActivity {
         startActivity (i);
     }
 
-    private void generate() {
-        Intent  i = new Intent (getApplicationContext (),Class_List_Carry_Activity.class);
-        startActivity (i);
 
-    }
 
-    private void requestlist() {
 
-        Intent  i = new Intent (getApplicationContext (),Lecture_request_acceptance.class);
-        startActivity (i);
-
-    }
 
     private void Logout() {
         firebaseAuth.signOut();

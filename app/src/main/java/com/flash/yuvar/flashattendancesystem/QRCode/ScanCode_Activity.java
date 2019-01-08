@@ -159,7 +159,7 @@ public class ScanCode_Activity extends AppCompatActivity implements ZXingScanner
 
 
             final FirebaseDatabase database = FirebaseDatabase.getInstance();
-            DatabaseReference myref = database.getReference("students");
+            DatabaseReference myref = database.getReference("users");
 
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
             final String userid = user.getUid();
@@ -496,7 +496,7 @@ public class ScanCode_Activity extends AppCompatActivity implements ZXingScanner
                     if(check.equals("Success")){
 
                         final FirebaseDatabase database = FirebaseDatabase.getInstance();
-                        DatabaseReference myref = database.getReference("students");
+                        DatabaseReference myref = database.getReference("users");
 
                         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                         final String userid = user.getUid();

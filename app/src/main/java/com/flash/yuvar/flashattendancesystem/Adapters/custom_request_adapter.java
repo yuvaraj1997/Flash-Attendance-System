@@ -54,6 +54,8 @@ public class custom_request_adapter extends  RecyclerView.Adapter<custom_request
 
     public custom_request_adapter(List<Request_access>requestList) {
 
+
+
         this.requestList = requestList;
     }
 
@@ -146,7 +148,7 @@ public class custom_request_adapter extends  RecyclerView.Adapter<custom_request
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         if(dataSnapshot.exists()){
 
-                            DatabaseReference jLoginDatabase = FirebaseDatabase.getInstance ( ).getReference ( ).child ("students").child (uID);
+                            DatabaseReference jLoginDatabase = FirebaseDatabase.getInstance ( ).getReference ( ).child ("users").child (uID);
                             jLoginDatabase.addValueEventListener (new ValueEventListener ( ) {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -161,13 +163,14 @@ public class custom_request_adapter extends  RecyclerView.Adapter<custom_request
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                             for(DataSnapshot ds: dataSnapshot.getChildren ()){
-
+                                                Toast.makeText(ctx,registeredID,Toast.LENGTH_LONG).show();
 
                                                 registered_class = ds.getValue (students_registered_class.class);
 
 
                                                 if(class_id .equals (registered_class.getClassID ())){
                                                     this.datasnapshotregisteredid = registered_class.getRegisteredclassID ();
+                                                    pushstudent(uID,student_name,datasnapshotregisteredid);
 
 
 
@@ -175,7 +178,7 @@ public class custom_request_adapter extends  RecyclerView.Adapter<custom_request
 
 
                                             }
-                                            pushstudent(uID,student_name,datasnapshotregisteredid);
+
                                         }
 
                                         @Override
@@ -203,7 +206,7 @@ public class custom_request_adapter extends  RecyclerView.Adapter<custom_request
                         else{
                             pushregisteredclass (class_Code,class_id,registered_class_id,lecture_name);
 
-                            DatabaseReference jLoginDatabase = FirebaseDatabase.getInstance ( ).getReference ( ).child ("students").child (uID);
+                            DatabaseReference jLoginDatabase = FirebaseDatabase.getInstance ( ).getReference ( ).child ("users").child (uID);
                             jLoginDatabase.addValueEventListener (new ValueEventListener ( ) {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -267,6 +270,8 @@ public class custom_request_adapter extends  RecyclerView.Adapter<custom_request
 
 
 
+
+
         extranode.orderByChild ("registeredclassID").equalTo (registeredID).addListenerForSingleValueEvent (new ValueEventListener ( ) {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -302,7 +307,7 @@ public class custom_request_adapter extends  RecyclerView.Adapter<custom_request
                             }
                             else{
 
-                                //Toast.makeText(ctx, "Student Exist! " + registered_student_list.getName (),Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ctx, "Student Exist! " + registered_student_list.getName (),Toast.LENGTH_SHORT).show();
                             }
 
 

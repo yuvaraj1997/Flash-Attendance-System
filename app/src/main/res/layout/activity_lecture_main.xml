@@ -121,27 +121,9 @@
         android:layout_marginBottom="164dp"
         android:text="View Class" />
 
-    <Button
-        android:id="@+id/button_generate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
 
 
-        android:layout_marginBottom="110dp"
-        android:text="Attendance Generator" />
 
-    <Button
-        android:id="@+id/button_request"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-
-
-        android:layout_marginBottom="52dp"
-        android:text="@string/request_acceptance" />
 
     <Button
         android:id="@+id/logout"

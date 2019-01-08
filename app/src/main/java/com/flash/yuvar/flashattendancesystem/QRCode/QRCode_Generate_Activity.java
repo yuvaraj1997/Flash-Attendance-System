@@ -76,6 +76,10 @@ public class QRCode_Generate_Activity extends AppCompatActivity {
 
 
 
+    private String lecturename;
+
+
+
 
 
 
@@ -113,6 +117,8 @@ public class QRCode_Generate_Activity extends AppCompatActivity {
                 mUploads.clear();
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     attendance_list_push_qr upload = postSnapshot.getValue(attendance_list_push_qr.class);
+
+
                     mUploads.add(upload);
                 }
 
@@ -206,6 +212,10 @@ public class QRCode_Generate_Activity extends AppCompatActivity {
         });
 
 
+    }
+
+    private void setLecturename(String userName) {
+        this.lecturename = userName;
     }
 
     private void saveBitmap(Bitmap bitmap) {

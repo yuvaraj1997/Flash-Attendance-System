@@ -14,6 +14,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.flash.yuvar.flashattendancesystem.Database.Subject_code;
+import com.flash.yuvar.flashattendancesystem.Database.students_registered_class;
 import com.flash.yuvar.flashattendancesystem.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -179,6 +180,16 @@ public class admin_add_class extends AppCompatActivity {
 
             Subject_code subject_code = new Subject_code (id,subjectcode,lecturename,password);
             databaseReference.child(id).setValue (subject_code);
+
+            DatabaseReference databaseReference = FirebaseDatabase.getInstance ().getReference ("student_registered_class");
+            final String registered_class_id = databaseReference.push ().getKey ();
+
+            students_registered_class registered_class = new students_registered_class (subjectcode,id,registered_class_id,lecturename);
+
+
+
+            databaseReference.child(registered_class_id).setValue (registered_class);
+
 
             Toast.makeText (this,"Subject Added", Toast.LENGTH_LONG).show ();
 

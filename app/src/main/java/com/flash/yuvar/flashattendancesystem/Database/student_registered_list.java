@@ -6,6 +6,7 @@ public class student_registered_list {
     private String name;
     private Integer count;
     private String EndDate;
+    private String reason;
     private Double count1;
 
     public student_registered_list(){
@@ -47,6 +48,24 @@ public class student_registered_list {
         this.name = name;
 
         this.EndDate = EndDate;
+    }
+
+    public student_registered_list(String uID, String name,String EndDate,String reason) {
+        this.uID = uID;
+        this.name = name;
+        this.reason = reason;
+
+        this.EndDate = EndDate;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+
+
+    public void setReason(String reason) {
+        this.reason = reason;
     }
 
     public Double getCount1() {

@@ -17,6 +17,12 @@ public class Subject_code {
         this.lecture_name = lecture_name;
         this.password = password;
     }
+    public Subject_code(String subject_code) {
+
+        this.subject_code = subject_code;
+
+    }
+
 
 
     public Integer getPassword() {

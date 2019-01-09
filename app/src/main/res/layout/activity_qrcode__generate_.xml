@@ -20,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="450dp"
         android:layout_below="@+id/text"
-        android:layout_above="@+id/progressBar2">
+        android:layout_above="@+id/avi">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view_qr"
@@ -46,15 +46,17 @@
         android:text="New Class" />
 
 
-
-    <ProgressBar
-        android:id="@+id/progressBar2"
-        style="?android:attr/progressBarStyle"
+    <com.wang.avi.AVLoadingIndicatorView
+        android:id="@+id/avi"
+        style="@style/AVLoadingIndicatorView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
         android:layout_above="@+id/gen_btn"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="3dp"
+        android:visibility="invisible"
+        app:indicatorColor="@color/startblue"
+        app:indicatorName="BallPulseIndicator" />
 
 
 </RelativeLayout>

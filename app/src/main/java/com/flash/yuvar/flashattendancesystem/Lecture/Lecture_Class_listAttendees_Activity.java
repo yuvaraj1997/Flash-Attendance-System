@@ -1,8 +1,11 @@
 package com.flash.yuvar.flashattendancesystem.Lecture;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -26,6 +29,8 @@ public class Lecture_Class_listAttendees_Activity extends AppCompatActivity {
     ArrayAdapter<String> adapter;
     ListView listView;
     student_registered_list retrieve;
+
+    private FloatingActionButton add;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate (savedInstanceState);
@@ -39,6 +44,7 @@ public class Lecture_Class_listAttendees_Activity extends AppCompatActivity {
 
         retrieve = new student_registered_list ();
         listView = (ListView) findViewById (R.id.list_view_attendees);
+        add = (FloatingActionButton)findViewById(R.id.floating_exception_button) ;
 
         uid = new ArrayList<> ();
         name = new ArrayList<> ();
@@ -68,6 +74,28 @@ public class Lecture_Class_listAttendees_Activity extends AppCompatActivity {
 
             }
         });
+
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(Lecture_Class_listAttendees_Activity.this, Lecture_add_reason.class);
+
+
+                intent.putExtra("registrationid", carriedregisteredid);
+                intent.putExtra("attendeesid", carriedAttendeeID);
+
+                startActivity(intent);
+
+
+
+
+            }
+        });
+
+
+
+
 
     }
 }

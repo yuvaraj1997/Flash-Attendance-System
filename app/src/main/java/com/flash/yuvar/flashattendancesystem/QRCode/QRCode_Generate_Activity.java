@@ -32,6 +32,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.google.zxing.WriterException;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
@@ -74,9 +75,10 @@ public class QRCode_Generate_Activity extends AppCompatActivity {
 
     public String TOTAL;
 
-
+    private AVLoadingIndicatorView avi;
 
     private String lecturename;
+
 
 
 
@@ -94,12 +96,11 @@ public class QRCode_Generate_Activity extends AppCompatActivity {
         carriedregisteredid = getIntent ().getExtras ().getString ("CarriedRegisteredClassID");
 
 
-
+        avi= (AVLoadingIndicatorView) findViewById(R.id.avi);
         gen_btn = (Button) findViewById (R.id.gen_btn);
         imgResult = (ImageView) findViewById (R.id.image);
-        progressBar = (ProgressBar) findViewById(R.id.progressBar2) ;
 
-        progressBar.setVisibility(View.INVISIBLE);
+
 
         mRecyclerView = findViewById(R.id.recycler_view_qr);
         mRecyclerView.setHasFixedSize(true);
@@ -121,6 +122,7 @@ public class QRCode_Generate_Activity extends AppCompatActivity {
 
                     mUploads.add(upload);
                 }
+                avi.hide();
 
                 mAdapter = new QR_Code_Generator_adapter(QRCode_Generate_Activity.this, mUploads);
 
@@ -144,6 +146,9 @@ public class QRCode_Generate_Activity extends AppCompatActivity {
         gen_btn.setOnClickListener (new View.OnClickListener ( ) {
             @Override
             public void onClick(View v) {
+
+                avi.show();
+
 
 
                 date = new SimpleDateFormat ("EEE, d MMM yyyy HH:mm:ss ", Locale.getDefault()).format(new Date ());
@@ -328,6 +333,8 @@ public class QRCode_Generate_Activity extends AppCompatActivity {
 
         return sb.toString();
     }
+
+
 
 
 }

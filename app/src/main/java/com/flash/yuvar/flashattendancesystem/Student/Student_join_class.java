@@ -14,6 +14,7 @@ import com.flash.yuvar.flashattendancesystem.Database.Subject_code;
 import com.flash.yuvar.flashattendancesystem.LoginActivity;
 import com.flash.yuvar.flashattendancesystem.R;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -56,6 +57,14 @@ public class Student_join_class extends AppCompatActivity {
         database = FirebaseDatabase.getInstance ();
         ref = database.getReference ("subject_code");
 
+        FirebaseUser user = FirebaseAuth.getInstance ().getCurrentUser ();
+        final String userid = user.getUid ();
+
+
+
+
+
+
 
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
 
@@ -67,9 +76,53 @@ public class Student_join_class extends AppCompatActivity {
                 for(DataSnapshot ds: dataSnapshot.getChildren ()){
 
 
+
+
+
                     subject_code = ds.getValue (Subject_code.class);
-                    Subject_code retrieve = new Subject_code(subject_code.getSubject_id(),subject_code.getSubject_code(),subject_code.getLecture_name(),subject_code.getPassword());
-                    list.add(retrieve);
+
+                    final Subject_code retrieve = new Subject_code(subject_code.getSubject_id(),subject_code.getSubject_code(),subject_code.getLecture_name(),subject_code.getPassword());
+
+                    DatabaseReference ref2 = FirebaseDatabase.getInstance().getReference("users").child(userid).child("subjects");
+                    ref2.orderByChild("subject_code").equalTo(subject_code.getSubject_code()).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                            if(dataSnapshot.exists()){
+
+                            }
+                            else{
+                                list.add(retrieve);
+                            }
+
+
+
+
+
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
                 }

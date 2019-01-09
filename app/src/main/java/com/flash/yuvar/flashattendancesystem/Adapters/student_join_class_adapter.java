@@ -109,6 +109,7 @@ public class student_join_class_adapter extends  RecyclerView.Adapter<student_jo
                         if(subject_code.getSubject_code().compareTo(ds.child("class_Code").getValue().toString())==0){
 
                             holder.but_join.setText("Requested");
+                            holder.but_join.setClickable(false);
 
 
 
@@ -124,6 +125,9 @@ public class student_join_class_adapter extends  RecyclerView.Adapter<student_jo
 
             }
         });
+
+
+
 
         holder.but_join.setOnClickListener(new View.OnClickListener() {
             @Override

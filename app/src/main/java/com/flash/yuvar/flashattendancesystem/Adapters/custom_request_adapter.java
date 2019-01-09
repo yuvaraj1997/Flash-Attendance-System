@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.flash.yuvar.flashattendancesystem.Database.Request_access;
+import com.flash.yuvar.flashattendancesystem.Database.Subject_code;
 import com.flash.yuvar.flashattendancesystem.Database.student_registered_list;
 import com.flash.yuvar.flashattendancesystem.Database.students_registered_class;
 import com.flash.yuvar.flashattendancesystem.R;
@@ -30,6 +31,8 @@ public class custom_request_adapter extends  RecyclerView.Adapter<custom_request
     private students_registered_class registered_class;
     private student_registered_list registered_student_list;
     private int i = 1;
+    private String text="";
+    private String uID,student_name;
 
 
 
@@ -135,9 +138,8 @@ public class custom_request_adapter extends  RecyclerView.Adapter<custom_request
                 final String registered_class_id = databaseReference.push ().getKey ();
                 final String class_Code = request_access.getClass_Code ();
                 final String class_id = request_access.getClassID ();
-                final String uID = request_access.getUserID ();
+                uID = request_access.getUserID ();
                 final String lecture_name = request_access.getLecture_name();
-
 
 
 
@@ -148,51 +150,20 @@ public class custom_request_adapter extends  RecyclerView.Adapter<custom_request
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         if(dataSnapshot.exists()){
 
+
+
+
                             DatabaseReference jLoginDatabase = FirebaseDatabase.getInstance ( ).getReference ( ).child ("users").child (uID);
                             jLoginDatabase.addValueEventListener (new ValueEventListener ( ) {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                    final String uID = dataSnapshot.getKey ().toString ();
-                                    final String student_name = dataSnapshot.child("name").getValue().toString();
-
-                                    DatabaseReference getregisteredclass = FirebaseDatabase.getInstance ( ).getReference ( ).child ("student_registered_class");
-
-                                    getregisteredclass.addListenerForSingleValueEvent (new ValueEventListener ( ) {
-                                        private String datasnapshotregisteredid;
-
-                                        @Override
-                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                            for(DataSnapshot ds: dataSnapshot.getChildren ()){
-                                                Toast.makeText(ctx,registeredID,Toast.LENGTH_LONG).show();
-
-                                                registered_class = ds.getValue (students_registered_class.class);
-
-
-                                                if(class_id .equals (registered_class.getClassID ())){
-                                                    this.datasnapshotregisteredid = registered_class.getRegisteredclassID ();
-                                                    pushstudent(uID,student_name,datasnapshotregisteredid);
-
-
-
-                                                }
-
-
-                                            }
-
-                                        }
-
-                                        @Override
-                                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                        }
-                                    });
-
-
-
-
+                                    uID = dataSnapshot.getKey ().toString ();
+                                    student_name = dataSnapshot.child("name").getValue().toString();
+                                    Toast.makeText(ctx,"",Toast.LENGTH_LONG).show();
 
 
                                 }
+
 
 
                                 @Override
@@ -200,6 +171,48 @@ public class custom_request_adapter extends  RecyclerView.Adapter<custom_request
 
                                 }
                             });
+
+                            DatabaseReference getregisteredclass = FirebaseDatabase.getInstance ( ).getReference ( ).child ("student_registered_class");
+
+                            getregisteredclass.addListenerForSingleValueEvent (new ValueEventListener ( ) {
+                                private String datasnapshotregisteredid;
+
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    for(DataSnapshot ds: dataSnapshot.getChildren ()){
+
+                                        registered_class = ds.getValue(students_registered_class.class);
+
+
+                                        if(class_id .equals (registered_class.getClassID ())){
+                                            this.datasnapshotregisteredid = registered_class.getRegisteredclassID ();
+                                            pushstudent(uID,student_name,datasnapshotregisteredid,registered_class.getClass_name());
+
+
+
+
+                                        }
+
+
+
+
+
+
+                                    }
+
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
+
+
+
+
+
+
 
 
                         }
@@ -212,7 +225,7 @@ public class custom_request_adapter extends  RecyclerView.Adapter<custom_request
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                     String uID = dataSnapshot.getKey ().toString ();
                                     String student_name = dataSnapshot.child("name").getValue().toString();
-                                    pushstudent(uID,student_name,registered_class_id);
+                                    pushstudent(uID,student_name,registered_class_id,classcode);
                                 }
 
                                 @Override
@@ -261,7 +274,15 @@ public class custom_request_adapter extends  RecyclerView.Adapter<custom_request
     }
 
 
-    private void pushstudent(String uID, final String student_name, final String registeredID) {
+    private void pushstudent(final String uID, final String student_name, final String registeredID, final String classcode) {
+
+
+        DatabaseReference user = FirebaseDatabase.getInstance().getReference("users").child(uID).child("subjects").push();
+
+       Subject_code subject_code = new Subject_code(classcode);
+
+        user.setValue(subject_code);
+
 
         final student_registered_list registered_list = new student_registered_list (uID,student_name,0);
 

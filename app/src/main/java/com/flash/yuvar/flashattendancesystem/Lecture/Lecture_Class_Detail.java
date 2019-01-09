@@ -42,6 +42,7 @@ public class Lecture_Class_Detail extends AppCompatActivity {
         setContentView(R.layout.activity_lecture__class__detail);
 
         carriedclasscode = getIntent ().getExtras ().getString ("CarriedClassName");
+
         carriedregisteredid = getIntent ().getExtras ().getString ("CarriedRegisteredClassID");
 
         requested = (TextView)findViewById(R.id.lecture_class_requested);
@@ -186,7 +187,7 @@ public class Lecture_Class_Detail extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent (getApplicationContext (),QRCode_Generate_Activity.class);
-
+                i.putExtra ("CarriedClassName",carriedclasscode);
                 i.putExtra ("CarriedRegisteredClassID",carriedregisteredid);
                 startActivity (i);
 
@@ -273,7 +274,7 @@ public class Lecture_Class_Detail extends AppCompatActivity {
                 // Set up the input
                 final EditText input = new EditText(Lecture_Class_Detail.this);
                 // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-                input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
                 builder.setView(input);
 
                 // Set up the buttons

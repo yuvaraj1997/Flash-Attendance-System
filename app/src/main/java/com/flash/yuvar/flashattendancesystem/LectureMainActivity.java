@@ -41,7 +41,7 @@ public class LectureMainActivity extends AppCompatActivity {
         }
 
 
-        tabLayout = (TabLayout) findViewById (R.id.tablayout_id);
+
         viewPager = (ViewPager) findViewById (R.id.viewpager_id);
 
 

@@ -1,5 +1,6 @@
 package com.flash.yuvar.flashattendancesystem.Admin;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 
 import com.flash.yuvar.flashattendancesystem.Database.Subject_code;
 import com.flash.yuvar.flashattendancesystem.Database.students_registered_class;
+import com.flash.yuvar.flashattendancesystem.LoginActivity;
 import com.flash.yuvar.flashattendancesystem.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -49,10 +51,10 @@ public class admin_add_class extends AppCompatActivity {
 
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance ( );
 
-        //if (firebaseAuth.getCurrentUser ()==null){
-            //finish ();
-            //startActivity (new Intent (this,LoginActivity.class));
-        //}
+        if (firebaseAuth.getCurrentUser ()==null){
+            finish ();
+            startActivity (new Intent(this,LoginActivity.class));
+        }
 
 
         databaseReference = FirebaseDatabase.getInstance ().getReference ("subject_code");
@@ -191,6 +193,8 @@ public class admin_add_class extends AppCompatActivity {
             databaseReference.child(registered_class_id).setValue (registered_class);
 
 
+
+
             Toast.makeText (this,"Subject Added", Toast.LENGTH_LONG).show ();
 
         }else{
@@ -200,6 +204,23 @@ public class admin_add_class extends AppCompatActivity {
 
 
     }
+
+
+    private void pushregisteredclass(String classcode, String classid, String registeredclassID,String lecture_name) {
+
+
+
+        students_registered_class registered_class = new students_registered_class (classcode,classid,registeredclassID,lecture_name);
+
+
+
+        databaseReference.child(registeredclassID).setValue (registered_class);
+
+
+
+
+    }
+
 
     public static final String DATA = "0123456789";
     public static Random RANDOM = new Random();

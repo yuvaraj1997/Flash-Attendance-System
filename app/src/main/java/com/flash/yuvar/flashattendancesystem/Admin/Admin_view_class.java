@@ -3,7 +3,9 @@ package com.flash.yuvar.flashattendancesystem.Admin;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -30,6 +32,8 @@ public class Admin_view_class extends AppCompatActivity {
     ArrayAdapter<String> adapter;
     retrieve_subject_code retrieve;
 
+    private FloatingActionButton addclass;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +50,8 @@ public class Admin_view_class extends AppCompatActivity {
 
         retrieve = new retrieve_subject_code ();
         listView = (ListView) findViewById (R.id.listView);
+
+        addclass = (FloatingActionButton)findViewById(R.id.button_floating_add_class) ;
 
         database = FirebaseDatabase.getInstance ();
         ref = database.getReference ("subject_code");
@@ -73,5 +79,26 @@ public class Admin_view_class extends AppCompatActivity {
 
             }
         });
+
+        addclass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addclass();
+
+            }
+        });
+
+
     }
+
+    private void addclass() {
+
+
+        startActivity(new Intent (Admin_view_class.this, admin_add_class.class));
+
+
+
+    }
+
+
 }

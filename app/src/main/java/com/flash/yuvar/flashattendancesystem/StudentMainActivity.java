@@ -25,52 +25,74 @@ public class StudentMainActivity extends AppCompatActivity {
     private TextView profileName, profileId, profileCourse;
     private FirebaseAuth firebaseAuth;
 
+    private TextView classcount1;
 
+    private Button logout, link_joinclass, btn_scan;
 
-    private Button logout,link_joinclass,btn_scan;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate (savedInstanceState);
-        setContentView (R.layout.activity_student_main);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_student_main);
 
-        logout = (Button)findViewById(R.id.logout);
-        profileId=findViewById (R.id.stu_id);
-        profileName=findViewById (R.id.name);
-        profileCourse=findViewById (R.id.course);
-        link_joinclass = findViewById (R.id.joinclass);
-        btn_scan=findViewById (R.id.scanning);
+        logout = (Button) findViewById(R.id.logout);
+        profileId = findViewById(R.id.stu_id);
+        profileName = findViewById(R.id.name);
+        profileCourse = findViewById(R.id.course);
+        link_joinclass = findViewById(R.id.joinclass);
+        btn_scan = findViewById(R.id.scanning);
+        classcount1 = findViewById(R.id.student_profile_registered_class);
 
         firebaseAuth = FirebaseAuth.getInstance();
 
-        if (firebaseAuth.getCurrentUser ()==null){
-            finish ();
-            startActivity (new Intent (this,LoginActivity.class));
+        if (firebaseAuth.getCurrentUser() == null) {
+            finish();
+            startActivity(new Intent(this, LoginActivity.class));
         }
-        FirebaseDatabase database = FirebaseDatabase.getInstance ();
-        DatabaseReference myref = database.getReference ("users");
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myref = database.getReference("users");
 
-        FirebaseUser user = FirebaseAuth.getInstance ().getCurrentUser ();
-        String userid = user.getUid ();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String userid = user.getUid();
 
-        myref.child (userid).addListenerForSingleValueEvent (new ValueEventListener ( ) {
+        myref.child(userid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                UserProfile userProfile = dataSnapshot.getValue (UserProfile.class);
-                profileId.setText (userProfile.getUserId ());
-                profileName.setText (userProfile.getUserName ());
-                profileCourse.setText (userProfile.getUserCourse ());
+                UserProfile userProfile = dataSnapshot.getValue(UserProfile.class);
+                profileId.setText(userProfile.getUserId());
+                profileName.setText(userProfile.getUserName());
+                profileCourse.setText(userProfile.getUserCourse());
 
 
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText (StudentMainActivity.this,databaseError.getCode (),Toast.LENGTH_SHORT ).show ();
+                Toast.makeText(StudentMainActivity.this, databaseError.getCode(), Toast.LENGTH_SHORT).show();
 
             }
         });
 
-        btn_scan.setOnClickListener (new View.OnClickListener ( ) {
+        final DatabaseReference classcount = FirebaseDatabase.getInstance().getReference("users").child(userid).child("subjects");
+
+        classcount.addListenerForSingleValueEvent(new ValueEventListener() {
+            Integer count =0;
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot ds:dataSnapshot.getChildren()){
+                    count++;
+
+                }
+                classcount1.setText(count.toString());
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        btn_scan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 scanclass();
@@ -78,18 +100,12 @@ public class StudentMainActivity extends AppCompatActivity {
         });
 
 
-
-
-
-
-        link_joinclass.setOnClickListener (new View.OnClickListener ( ) {
+        link_joinclass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 joinclass();
             }
         });
-
-
 
 
         logout.setOnClickListener(new View.OnClickListener() {
@@ -101,44 +117,23 @@ public class StudentMainActivity extends AppCompatActivity {
     }
 
     private void scanclass() {
-        startActivity (new Intent (getApplicationContext (),ScanCode_Activity.class));
+        startActivity(new Intent(getApplicationContext(), ScanCode_Activity.class));
     }
 
     private void joinclass() {
 
-        startActivity(new Intent (StudentMainActivity.this, Student_join_class.class));
+        startActivity(new Intent(StudentMainActivity.this, Student_join_class.class));
 
     }
 
-    private void Logout(){
+    private void Logout() {
         firebaseAuth.signOut();
         finish();
         startActivity(new Intent(StudentMainActivity.this, LoginActivity.class));
     }
 
 
-    //@Override
-    //public boolean onCreateOptionsMenu(Menu menu) {
-     //   getMenuInflater().inflate(R.menu.menu, menu);
-    //    return true;
-    //}
-
-    //@Override
-    // public boolean onOptionsItemSelected(MenuItem item) {
-
-    //switch(item.getItemId()){
-    // case R.id.logoutMenu:{
-    //  Logout();
-    // break;
-    //}
-    //case R.id.profileMenu:
-    //startActivity(new Intent (SecondActivity.this, ProfileActivity.class));
-    //break;
-
-    //}
-    //return super.onOptionsItemSelected(item);
-    }
-
+}
 
 
 

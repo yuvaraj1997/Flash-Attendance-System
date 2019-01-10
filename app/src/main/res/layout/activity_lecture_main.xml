@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,134 +7,106 @@
     tools:context=".LectureMainActivity">
 
 
-    <View
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="210dp"
-        android:background="@color/colorPrimary2"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp">
-
-
+        android:layout_height="match_parent"
+        tools:context="com.demotxt.droidsrce.profileui.MainActivity"
+        android:background="@color/graylight"
+        android:orientation="vertical">
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp">
-
-
-
-            <de.hdodenhof.circleimageview.CircleImageView
-
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:src="@drawable/profile"
-                android:layout_centerHorizontal="true"
-                android:elevation="1dp"/>
-
+            android:layout_height="405dp">
             <LinearLayout
+                android:background="@drawable/gradienbackgroundstudent"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="350dp"
                 android:orientation="vertical">
 
-
-                <android.support.v7.widget.CardView
-                    android:layout_width="match_parent"
+                <ImageView
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="45dp"
+                    android:src="@drawable/flash" />
+                <TextView
+                    android:layout_marginTop="1dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="85dp">
+                    android:text="Lecture Name"
+                    android:id="@+id/lecture_name"
+                    android:textColor="#fff"
+                    android:textStyle="bold"
+                    android:textSize="21sp"/>
+                <TextView
+                    android:layout_marginTop="0dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Lecture ID"
+                    android:id="@+id/lecture_id"
+                    android:textColor="#fff"
+                    android:textStyle="bold"
+                    android:textSize="21sp"/>
 
+            </LinearLayout>
+            <android.support.v7.widget.CardView
+                android:layout_width="400dp"
+                android:layout_height="120dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="275dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
                     <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent">
                         <TextView
-                            android:id="@+id/name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-
-                            android:layout_marginTop="60dp"
-                            android:text="Lecture"
-                            android:textSize="25sp"
-                            android:textStyle="bold" />
-
+                            android:text="My Classess"
+                            android:textSize="20sp"
+                            />
                         <TextView
-                            android:id="@+id/stu_id"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:layout_marginTop="10dp"
-                            android:text="Uniten"
-                            android:textSize="17sp" />
-
-
-                        <TextView
-                            android:id="@+id/course"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:layout_marginTop="20dp"
-                            android:text="Flash Attendance System"
-                            android:textAlignment="center"
-                            android:textSize="18sp"
-                            android:textStyle="italic" />
-
-
-                        <android.support.v4.view.ViewPager
-                            android:id="@+id/viewpager_id"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
-
+                            android:id="@+id/lecture_profile_registered_class"
+                            android:text="0"
+                            android:textStyle="bold"
+                            android:textSize="20sp"
+                            android:paddingTop="10dp"
+                            android:textColor="@color/startblue"/>
 
                     </LinearLayout>
 
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                </LinearLayout>
 
-                    </RelativeLayout>
-
-                </android.support.v7.widget.CardView>
-
-
-            </LinearLayout>
-
-
+            </android.support.v7.widget.CardView>
         </RelativeLayout>
 
 
 
+        <Button
+            android:textColor="#fff"
+            android:background="@drawable/buttonstyle"
+            android:layout_marginTop="30dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/logout"
+            android:text="Logout"/>
+
     </LinearLayout>
 
-    <Button
-        android:id="@+id/button_viewclass"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-
-
-        android:layout_marginBottom="164dp"
-        android:text="View Class" />
 
 
 
 
-
-    <Button
-        android:id="@+id/logout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="0dp"
-
-        android:text="Logout" />
-
-
-
-</RelativeLayout>
+</LinearLayout>

@@ -36,6 +36,8 @@ public class Student_join_class extends AppCompatActivity {
 
     private List<Subject_code> list = new ArrayList<>();
 
+    private List<String> subjects = new ArrayList<String>();
+
     DatabaseReference databaseReference;
 
 
@@ -62,6 +64,37 @@ public class Student_join_class extends AppCompatActivity {
 
 
 
+        DatabaseReference ref2 = FirebaseDatabase.getInstance().getReference("users").child(userid).child("subjects");
+        ref2.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if(dataSnapshot.exists()){
+                    for(DataSnapshot ds:dataSnapshot.getChildren()){
+
+                        Subject_code code = ds.getValue(Subject_code.class);
+                        subjects.add(code.getSubject_code());
+
+
+                    }
+
+                }
+                else{
+
+                }
+
+
+
+
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
 
 
@@ -81,32 +114,24 @@ public class Student_join_class extends AppCompatActivity {
 
                     subject_code = ds.getValue (Subject_code.class);
 
+
+
                     final Subject_code retrieve = new Subject_code(subject_code.getSubject_id(),subject_code.getSubject_code(),subject_code.getLecture_name(),subject_code.getPassword());
 
-                    DatabaseReference ref2 = FirebaseDatabase.getInstance().getReference("users").child(userid).child("subjects");
-                    ref2.orderByChild("subject_code").equalTo(subject_code.getSubject_code()).addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                            if(dataSnapshot.exists()){
-
-                            }
-                            else{
-                                list.add(retrieve);
-                            }
-
-
-
-
-
+                    String text="";
+                    for(int i=0;i<subjects.size();i++){
+                        if(subjects.get(i).compareTo(retrieve.getSubject_code())==0){
+                            text = "got";
 
                         }
+                    }
+                    if(text.isEmpty()){
+                        list.add(retrieve);
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                        }
-                    });
+                    }else{
+
+                    }
 
 
 

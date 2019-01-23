@@ -274,6 +274,9 @@ public class custom_request_adapter extends  RecyclerView.Adapter<custom_request
     }
 
 
+
+
+
     private void pushstudent(final String uID, final String student_name, final String registeredID, final String classcode) {
 
 
@@ -397,5 +400,5 @@ public class custom_request_adapter extends  RecyclerView.Adapter<custom_request
     public int getItemCount() {
 
         return requestList.size();
-    }
+}
 }

@@ -25,7 +25,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
     private FirebaseAuth firebaseAuth;
-    private EditText studentID,studentpassword;
+    private EditText studentID, studentpassword;
     private Button btn_signin;
     private ProgressBar loading;
 
@@ -33,22 +33,61 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate (savedInstanceState);
-        setContentView (R.layout.activity_login);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
 
 
-
-        studentID = findViewById (R.id.student_id);
-        studentpassword = findViewById (R.id.password);
-        btn_signin = findViewById (R.id.login);
-        loading = findViewById (R.id.loading);
-
-
-
+        studentID = findViewById(R.id.student_id);
+        studentpassword = findViewById(R.id.password);
+        btn_signin = findViewById(R.id.login);
+        loading = findViewById(R.id.loading);
 
 
 
 
+
+
+
+        FirebaseUser user1 = FirebaseAuth.getInstance().getCurrentUser();
+        if (user1 != null) {
+            FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+            final String RegisteredUserID = currentUser.getUid();
+
+            DatabaseReference jLoginDatabase = FirebaseDatabase.getInstance ( ).getReference ( ).child ("users").child (RegisteredUserID);
+
+            jLoginDatabase.addValueEventListener (new ValueEventListener ( ) {
+
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    String userType = dataSnapshot.child("type").getValue().toString();
+                    if(userType.equals("student")){
+
+
+
+                        Intent intentStudent = new Intent(LoginActivity.this, StudentMainActivity.class);
+                        intentStudent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intentStudent);
+                        finish();
+                    }else if(userType.equals("lecture")){
+                        Intent intentLecture = new Intent(LoginActivity.this, LectureMainActivity.class);
+                        intentLecture.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intentLecture);
+                        finish();
+                    }else if(userType.equals("admin")){
+                        Intent intentAdmin = new Intent(LoginActivity.this, AdminMainActivity.class);
+                        intentAdmin.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intentAdmin);
+                        finish();
+                    }
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        }
 
 
 
@@ -98,7 +137,7 @@ public class LoginActivity extends AppCompatActivity {
                 if(task.isSuccessful ()){
 
                     FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-                    String RegisteredUserID = currentUser.getUid();
+                    final String RegisteredUserID = currentUser.getUid();
 
                     DatabaseReference jLoginDatabase = FirebaseDatabase.getInstance ( ).getReference ( ).child ("users").child (RegisteredUserID);
 
@@ -108,6 +147,7 @@ public class LoginActivity extends AppCompatActivity {
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             String userType = dataSnapshot.child("type").getValue().toString();
                             if(userType.equals("student")){
+
                                 Intent intentStudent = new Intent(LoginActivity.this, StudentMainActivity.class);
                                 intentStudent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(intentStudent);

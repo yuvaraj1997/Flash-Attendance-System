@@ -1,30 +1,45 @@
 package com.flash.yuvar.flashattendancesystem.Lecture;
 
-import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.flash.yuvar.flashattendancesystem.Database.Request_access;
 import com.flash.yuvar.flashattendancesystem.Database.Subject_code;
 import com.flash.yuvar.flashattendancesystem.Database.lecture_profile_detail;
+import com.flash.yuvar.flashattendancesystem.Database.student_registered_list;
 import com.flash.yuvar.flashattendancesystem.Database.students_registered_class;
 import com.flash.yuvar.flashattendancesystem.QRCode.QRCode_Generate_Activity;
 import com.flash.yuvar.flashattendancesystem.R;
+import com.github.mikephil.charting.animation.Easing;
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 public class Lecture_Class_Detail extends AppCompatActivity {
 
@@ -35,6 +50,17 @@ public class Lecture_Class_Detail extends AppCompatActivity {
     private Button viewclasses,classpassword;
 
     private String Classcode,lecturepass,classpass;
+
+    private PieChart chart;
+
+    private SwipeRefreshLayout swipeRefreshLayout;
+    CountDownTimer timer;
+    private Integer originalcount;
+
+    private student_registered_list retrieve;
+
+    private Double percentagetotal=0.0;
+    private Integer countingstudenttotal=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,89 +75,23 @@ public class Lecture_Class_Detail extends AppCompatActivity {
         classcode = (TextView)findViewById(R.id.lecture_class_detail_classcode);
         studentcount = (TextView)findViewById(R.id.lecture_class_detail_student_Registered);
         classescount = (TextView)findViewById(R.id.lecture_class_detail_classes);
+        chart = (PieChart)findViewById(R.id.classdetailchart);
+
+        swipeRefreshLayout=(SwipeRefreshLayout)findViewById(R.id.swipe);
 
         classpassword = (Button)findViewById(R.id.button_lecture_class_detail_view_password);
         viewclasses = (Button)findViewById(R.id.button_lecture_class_detail_view_classes);
 
-        final DatabaseReference classdetail = FirebaseDatabase.getInstance().getReference("student_registered_class").child(carriedregisteredid);
-
-        classdetail.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.exists()){
-
-                    students_registered_class registered = dataSnapshot.getValue(students_registered_class.class);
-
-                    classcode.setText(registered.getClass_name());
-
-                    setClasscode(classcode.toString());
-
-
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-        final DatabaseReference classcount = FirebaseDatabase.getInstance().getReference("student_registered_class").child(carriedregisteredid).child("attendance_list");
-
-
-        classcount.addListenerForSingleValueEvent(new ValueEventListener() {
-            Integer classnumber =0;
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot ds: dataSnapshot.getChildren()){
-
-                    classnumber++;
 
 
 
-                }
-                classescount.setText(classnumber.toString());
 
 
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-        final DatabaseReference students = FirebaseDatabase.getInstance().getReference("student_registered_class").child(carriedregisteredid).child("student_list");
-
-        students.addListenerForSingleValueEvent(new ValueEventListener() {
-            Integer studentnumber =0;
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot ds:dataSnapshot.getChildren()){
-
-                    studentnumber++;
-
-                }
-
-                studentcount.setText(studentnumber.toString());
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-       DatabaseReference requestaccess = FirebaseDatabase.getInstance().getReference ("request_access");
-
-
-       requestaccess.addListenerForSingleValueEvent(new ValueEventListener() {
-           Integer request =0;
-           @Override
-           public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-               for(DataSnapshot ds: dataSnapshot.getChildren()){
-
-                   Request_access retrieve = ds.getValue (Request_access.class);
+        Piechart();
+        callclassdetail();
+        callclassCount();
+        callstudentCount();
+        callRequestCount();
 
 
 
@@ -139,26 +99,6 @@ public class Lecture_Class_Detail extends AppCompatActivity {
 
 
 
-                   if(classcode.getText().toString().equals(retrieve.getClass_Code())){
-                       request++;
-
-
-
-
-                   }
-
-
-               }
-
-               requested.setText(request.toString());
-
-           }
-
-           @Override
-           public void onCancelled(@NonNull DatabaseError databaseError) {
-
-           }
-       });
 
 
 
@@ -337,6 +277,251 @@ public class Lecture_Class_Detail extends AppCompatActivity {
         });
 
 
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        swipeRefreshLayout.setRefreshing(false);
+                        callclassdetail();
+                        callclassCount();
+                        callstudentCount();
+                        callRequestCount();
+
+
+
+
+                    }
+                },4000);
+            }
+        });
+
+
+        timer = new CountDownTimer(100, 1000) {
+            @Override
+            public void onTick(final long millSecondsLeftToFinish) {
+
+            }
+
+            @Override
+            public void onFinish() {
+                callclassdetail();
+                callclassCount();
+                callstudentCount();
+                callRequestCount();
+
+
+
+                timer.start();
+            }
+        };
+        timer.start();
+
+
+    }
+
+    private void Piechart() {
+
+        retrieve  = new student_registered_list();
+
+
+
+        DatabaseReference ref2 = FirebaseDatabase.getInstance().getReference("student_registered_class").child(carriedregisteredid).child("attendance_list");
+
+        ref2.addListenerForSingleValueEvent(new ValueEventListener() {
+            Integer count=0;
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot ds: dataSnapshot.getChildren()){
+
+                    count++;
+                }
+
+                setOriginalCount(count);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("student_registered_class").child(carriedregisteredid).child("student_list");
+
+        Query query = ref.orderByChild("name");
+        query.addValueEventListener (new ValueEventListener( ) {
+            Double percentagedecimal = 0.0;
+            Integer countingstudent = 0;
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                for(DataSnapshot ds: dataSnapshot.getChildren ()){
+
+                    retrieve = ds.getValue (student_registered_list.class);
+
+                    Double percentage = ((double) retrieve.getCount()/originalcount) * 100;
+
+                    student_registered_list list= new student_registered_list (retrieve.getuID(), retrieve.getName(),percentage);
+
+
+                    this.percentagedecimal += (double)(percentage/100);
+
+
+                    countingstudent++;
+
+
+
+                }
+
+                chart.setUsePercentValues(true);
+                chart.getDescription().setEnabled(false);
+                chart.setExtraOffsets(5,10,5,5);
+
+                chart.setDragDecelerationFrictionCoef(0.99f);
+
+                chart.setDrawHoleEnabled(false);
+                chart.setHoleColor(Color.WHITE);
+                chart.setTransparentCircleRadius(61f);
+
+                ArrayList<PieEntry> values = new ArrayList<>();
+
+                Double present = (percentagedecimal/countingstudent)*100;
+                Double absent = 100 - present;
+
+                Toast.makeText(Lecture_Class_Detail.this,present.toString(),Toast.LENGTH_LONG).show();
+
+
+                values.add(new PieEntry(present.floatValue(),"Present"));
+                values.add(new PieEntry(absent.floatValue(),"Absent"));
+
+                chart.animateY(1000, Easing.EasingOption.EaseInOutCubic);
+
+                PieDataSet dataSet = new PieDataSet(values,"Performance Of The Class");
+                dataSet.setSliceSpace(3f);
+                dataSet.setSelectionShift(5f);
+                dataSet.setColors(ColorTemplate.JOYFUL_COLORS);
+
+                PieData data = new PieData((dataSet));
+                data.setValueTextSize(10f);
+                data.setValueTextColor(Color.YELLOW);
+
+                chart.setData(data);
+
+
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+
+
+    }
+
+
+
+    private void setOriginalCount(Integer count) {
+        this.originalcount = count;
+    }
+
+    private void callRequestCount() {
+        DatabaseReference requestaccess = FirebaseDatabase.getInstance().getReference ("request_access");
+
+        requestaccess.addListenerForSingleValueEvent(new ValueEventListener() {
+            Integer request =0;
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot ds: dataSnapshot.getChildren()){
+                    Request_access retrieve = ds.getValue (Request_access.class);
+                    if(classcode.getText().toString().equals(retrieve.getClass_Code())){
+                        request++;
+                    }
+                }
+                requested.setText(request.toString());
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+
+    }
+
+    private void callstudentCount() {
+
+        DatabaseReference students = FirebaseDatabase.getInstance().getReference("student_registered_class").child(carriedregisteredid).child("student_list");
+
+        students.addListenerForSingleValueEvent(new ValueEventListener() {
+            Integer studentnumber =0;
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot ds:dataSnapshot.getChildren()){
+
+                    studentnumber++;
+
+                }
+
+                studentcount.setText(studentnumber.toString());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+    private void callclassCount() {
+        DatabaseReference classcount = FirebaseDatabase.getInstance().getReference("student_registered_class").child(carriedregisteredid).child("attendance_list");
+
+        classcount.addListenerForSingleValueEvent(new ValueEventListener() {
+            Integer classnumber =0;
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot ds: dataSnapshot.getChildren()){
+                    classnumber++;
+                }
+                classescount.setText(classnumber.toString());
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void callclassdetail() {
+        DatabaseReference classdetail = FirebaseDatabase.getInstance().getReference("student_registered_class").child(carriedregisteredid);
+
+        classdetail.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+
+                    students_registered_class registered = dataSnapshot.getValue(students_registered_class.class);
+
+                    classcode.setText(registered.getClass_name());
+
+                    setClasscode(classcode.toString());
+
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void setClasscode(String s) {

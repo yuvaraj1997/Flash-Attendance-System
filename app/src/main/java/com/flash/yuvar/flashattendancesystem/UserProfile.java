@@ -6,6 +6,7 @@ public class UserProfile {
     public String course;
     public String name;
 
+
     public UserProfile(){
     }
 
@@ -14,6 +15,9 @@ public class UserProfile {
         this.course = course;
         this.name = name;
     }
+
+
+
 
     public String getUserId() {
         return student_id;

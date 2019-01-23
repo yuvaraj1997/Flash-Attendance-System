@@ -15,6 +15,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -56,11 +57,7 @@ public class Lecture_Student_List extends AppCompatActivity {
                     count++;
                 }
 
-
-
                 setOriginalCount(count);
-
-
 
             }
 
@@ -72,52 +69,23 @@ public class Lecture_Student_List extends AppCompatActivity {
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("student_registered_class").child(carriedregisteredid).child("student_list");
 
-        ref.addValueEventListener (new ValueEventListener( ) {
+        Query query = ref.orderByChild("name");
+        query.addValueEventListener (new ValueEventListener( ) {
 
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
                 requestList.clear();
-
                 for(DataSnapshot ds: dataSnapshot.getChildren ()){
-
 
                     retrieve = ds.getValue (student_registered_list.class);
 
-
-
-
                     Double percentage = ((double)retrieve.getCount()/originalcount) * 100;
-
-
-
-
-
-
-
-
-
-
 
                     student_registered_list list= new student_registered_list (retrieve.getuID(),retrieve.getName(),percentage);
 
                     requestList.add(list);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
                 }
-
 
 
                 mAdapter = new student_percentage_adapter(requestList);
@@ -125,14 +93,7 @@ public class Lecture_Student_List extends AppCompatActivity {
                 recyclerView.setLayoutManager(mLayoutManager);
                 recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-
-
-
                 recyclerView.setAdapter(mAdapter);
-
-
-
-
 
             }
 

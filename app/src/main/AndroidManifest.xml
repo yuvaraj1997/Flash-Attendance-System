@@ -10,6 +10,7 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <uses-feature
         android:name="android.hardware.nfc"
@@ -23,6 +24,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppThemeLogin"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".Student.Student_Class_listAttendees_Activity"></activity>
+        <activity android:name=".Student.Student_registered_student_View" />
+        <activity android:name=".Student.Student_attendance_View" />
+        <activity android:name=".Student.Student_Class_Detail" />
+        <activity
+            android:name=".Student.Student_Class_List"
+            android:label="@string/title_activity_student__class__list"
+            android:theme="@style/AppThemeLogin.NoActionBar" />
         <activity android:name=".StudentMainActivity" />
         <activity android:name=".LoginActivity">
             <intent-filter>
@@ -50,7 +59,7 @@
         <activity android:name=".QRCode.QR_Code_End_Activity" />
         <activity android:name=".Lecture.Lecture_Class_Detail" />
         <activity android:name=".Lecture.Lecture_Student_List" />
-        <activity android:name=".Lecture.Lecture_add_reason"></activity>
+        <activity android:name=".Lecture.Lecture_add_reason" />
     </application>
 
 </manifest>

@@ -30,7 +30,7 @@
                     android:layout_height="150dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="45dp"
-                    android:src="@drawable/flash" />
+                    app:srcCompat="@drawable/flash" />
                 <TextView
                     android:layout_marginTop="1dp"
                     android:layout_gravity="center_horizontal"

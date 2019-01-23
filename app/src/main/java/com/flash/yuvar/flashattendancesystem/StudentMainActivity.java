@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.flash.yuvar.flashattendancesystem.QRCode.ScanCode_Activity;
+import com.flash.yuvar.flashattendancesystem.Student.Student_Class_List;
 import com.flash.yuvar.flashattendancesystem.Student.Student_join_class;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -26,6 +27,7 @@ public class StudentMainActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
 
     private TextView classcount1;
+    private String uid;
 
     private Button logout, link_joinclass, btn_scan;
 
@@ -44,15 +46,24 @@ public class StudentMainActivity extends AppCompatActivity {
 
         firebaseAuth = FirebaseAuth.getInstance();
 
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        final String userid = user.getUid();
+        uid = userid;
+
         if (firebaseAuth.getCurrentUser() == null) {
+
+
             finish();
             startActivity(new Intent(this, LoginActivity.class));
         }
+
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myref = database.getReference("users");
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        String userid = user.getUid();
+
+
+
 
         myref.child(userid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -92,6 +103,14 @@ public class StudentMainActivity extends AppCompatActivity {
             }
         });
 
+        classcount1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                classlist();
+
+            }
+        });
+
         btn_scan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -111,10 +130,21 @@ public class StudentMainActivity extends AppCompatActivity {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //DatabaseReference check = FirebaseDatabase.getInstance().getReference("users").child(userid).child("status");
+                //check.removeValue();
                 Logout();
+
+
+
+
             }
         });
     }
+
+    private void classlist() {
+        startActivity(new Intent(getApplicationContext(), Student_Class_List.class));
+    }
+
 
     private void scanclass() {
         startActivity(new Intent(getApplicationContext(), ScanCode_Activity.class));

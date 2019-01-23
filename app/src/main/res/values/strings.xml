@@ -14,6 +14,7 @@
     <string name="student_name">Student Name</string>
     <string name="request_acceptance">Request Acceptance</string>
     <string name="scan">Scan</string>
+    <string name="title_activity_student__class__list">Student_Class_List</string>
 
 
 </resources>

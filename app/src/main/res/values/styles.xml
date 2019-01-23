@@ -18,5 +18,10 @@
 
     <style name="AppThemeLogin.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="AppThemeLogin.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
 
 </resources>

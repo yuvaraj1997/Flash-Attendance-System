@@ -8,6 +8,9 @@ public class student_registered_list {
     private String EndDate;
     private String reason;
     private Double count1;
+    private String carriedregisteredid;
+    private String carriedAttendeeID;
+    private Integer dup;
 
     public student_registered_list(){
 
@@ -50,12 +53,54 @@ public class student_registered_list {
         this.EndDate = EndDate;
     }
 
+    public student_registered_list(String uID, String name,String reason,Integer dup) {
+        this.uID = uID;
+        this.name = name;
+        this.reason = reason;
+
+
+    }
+
     public student_registered_list(String uID, String name,String EndDate,String reason) {
         this.uID = uID;
         this.name = name;
         this.reason = reason;
 
         this.EndDate = EndDate;
+    }
+
+
+    public student_registered_list(String uID, String name,String carriedregisteredid,String carriedAttendeeID,Integer dup) {
+        this.uID = uID;
+        this.name = name;
+        this.carriedregisteredid = carriedregisteredid;
+        this.carriedAttendeeID = carriedAttendeeID;
+        this.dup = dup;
+
+    }
+
+    public String getCarriedregisteredid() {
+        return carriedregisteredid;
+    }
+
+    public void setCarriedregisteredid(String carriedregisteredid) {
+        this.carriedregisteredid = carriedregisteredid;
+    }
+
+    public String getCarriedAttendeeID() {
+        return carriedAttendeeID;
+    }
+
+    public void setCarriedAttendeeID(String carriedAttendeeID) {
+        this.carriedAttendeeID = carriedAttendeeID;
+    }
+
+    public Integer getDup() {
+        return dup;
+    }
+
+    public void setDup(Integer dup) {
+        this.dup = dup;
     }
 
     public String getReason() {

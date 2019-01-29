@@ -40,10 +40,11 @@ public class student_registered_list {
         this.count = count;
     }
 
-    public student_registered_list(String uID, String name,Double count) {
+    public student_registered_list(String uID, String name,Double count,String carriedregisteredid) {
         this.uID = uID;
         this.name = name;
         this.count1 = count;
+        this.carriedregisteredid = carriedregisteredid;
     }
 
     public student_registered_list(String uID, String name,String EndDate) {

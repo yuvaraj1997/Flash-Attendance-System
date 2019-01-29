@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.flash.yuvar.flashattendancesystem.OTP.PhoneNoAuth;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -28,13 +29,18 @@ public class LoginActivity extends AppCompatActivity {
     private EditText studentID, studentpassword;
     private Button btn_signin;
     private ProgressBar loading;
-
+    String email;
     private int counter = 5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+         email = getIntent().getStringExtra("email");
+
+
+
 
 
         studentID = findViewById(R.id.student_id);
@@ -45,6 +51,15 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
+        if(email==null){
+            //Toast.makeText(this,"Success",Toast.LENGTH_LONG).show();
+        }
+        else{
+            studentID.setText(email);
+            studentID.setEnabled(false);
+
+
+        }
 
 
 
@@ -62,8 +77,6 @@ public class LoginActivity extends AppCompatActivity {
                     String userType = dataSnapshot.child("type").getValue().toString();
                     if(userType.equals("student")){
 
-
-
                         Intent intentStudent = new Intent(LoginActivity.this, StudentMainActivity.class);
                         intentStudent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intentStudent);
@@ -71,6 +84,7 @@ public class LoginActivity extends AppCompatActivity {
                     }else if(userType.equals("lecture")){
                         Intent intentLecture = new Intent(LoginActivity.this, LectureMainActivity.class);
                         intentLecture.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
                         startActivity(intentLecture);
                         finish();
                     }else if(userType.equals("admin")){
@@ -148,10 +162,26 @@ public class LoginActivity extends AppCompatActivity {
                             String userType = dataSnapshot.child("type").getValue().toString();
                             if(userType.equals("student")){
 
-                                Intent intentStudent = new Intent(LoginActivity.this, StudentMainActivity.class);
-                                intentStudent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                startActivity(intentStudent);
-                                finish();
+
+                                if(email==null){
+                                    FirebaseAuth.getInstance().signOut();
+                                    Intent intentStudent = new Intent(LoginActivity.this, PhoneNoAuth.class);
+                                    intentStudent.putExtra("email", studentID.getText().toString());
+                                    intentStudent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    startActivity(intentStudent);
+                                    finish();
+
+                                }
+                                else{
+
+                                    Intent intentStudent = new Intent(LoginActivity.this, StudentMainActivity.class);
+                                    intentStudent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    startActivity(intentStudent);
+                                    finish();
+
+                                }
+
+
                             }else if(userType.equals("lecture")){
                                 Intent intentLecture = new Intent(LoginActivity.this, LectureMainActivity.class);
                                 intentLecture.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

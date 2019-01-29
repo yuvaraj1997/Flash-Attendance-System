@@ -11,6 +11,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <uses-feature
         android:name="android.hardware.nfc"
@@ -24,7 +25,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppThemeLogin"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".Student.Student_Class_listAttendees_Activity"></activity>
+        <activity android:name=".Admin.StudentSide.Admin_add_course"></activity>
+        <activity android:name=".Admin.StudentSide.CourseList" />
+        <activity android:name=".OTP.PhoneNoAuth" />
+        <activity android:name=".Admin.StudentSide.Admin_student_add" />
+        <activity android:name=".Admin.ClassSide.Admin_Student_List" />
+        <activity android:name=".Admin.ClassSide.Admin_Class_Detail" />
+        <activity android:name=".Student.Student_Class_listAttendees_Activity" />
         <activity android:name=".Student.Student_registered_student_View" />
         <activity android:name=".Student.Student_attendance_View" />
         <activity android:name=".Student.Student_Class_Detail" />
@@ -42,8 +49,8 @@
         </activity>
         <activity android:name=".LectureMainActivity" />
         <activity android:name=".AdminMainActivity" />
-        <activity android:name=".Admin.admin_add_class" />
-        <activity android:name=".Admin.Admin_view_class" />
+        <activity android:name=".Admin.ClassSide.admin_add_class" />
+        <activity android:name=".Admin.ClassSide.Admin_view_class" />
         <activity android:name=".Student.Student_join_class" />
         <activity android:name=".Lecture.Lecture_request_acceptance" />
         <activity android:name=".QRCode.QRCode_Generate_Activity" />

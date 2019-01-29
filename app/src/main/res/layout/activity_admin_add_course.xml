@@ -1,27 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".Admin.ClassSide.admin_add_class">
+    tools:context=".Admin.StudentSide.Admin_add_course">
 
     <TextView
+        android:id="@+id/admin_textview_addcourse"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/add_subject"
+        android:text="Add Course"
         android:textSize="20sp"
         android:textColor="@android:color/black"
         android:textAlignment="center"/>
 
 
+
+
+
+
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:id="@+id/admin_textview_course"
+        android:layout_below="@+id/admin_textview_addcourse">
+
         <EditText
-            android:id="@+id/subject_code"
-            android:hint="@string/subject_code"
+            android:id="@+id/admin_add_course"
+            android:hint="Course"
             android:textColorHint="@android:color/black"
             android:textColor="@android:color/black"
             android:layout_width="match_parent"
@@ -31,37 +38,26 @@
 
 
 
-    <Spinner
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:id="@+id/spinner">
-
-    </Spinner>
-
-
-
 
 
 
 
     <ProgressBar
-        android:id="@+id/loading"
+        android:id="@+id/loading_course"
         android:layout_marginTop="30dp"
         android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-
     <Button
-        android:id="@+id/add"
+        android:id="@+id/button_add_course_push"
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:layout_marginTop="20dp"
         android:backgroundTint="@color/blue"
-        android:text="@string/add_subject"
+        android:text="Add Course"
+        android:layout_below="@+id/admin_textview_course"
 
         android:textColor="@android:color/white" />
 
-
-
-</LinearLayout>
+</RelativeLayout>

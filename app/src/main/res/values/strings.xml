@@ -15,6 +15,10 @@
     <string name="request_acceptance">Request Acceptance</string>
     <string name="scan">Scan</string>
     <string name="title_activity_student__class__list">Student_Class_List</string>
+    <string name="openpdf">Open PDF</string>
+    <string name="convertpdf">Convert PDF</string>
 
+    <string name="kontentext"></string>
+    <string name="filepath"></string>
 
 </resources>

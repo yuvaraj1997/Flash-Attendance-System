@@ -12,4 +12,11 @@
         android:layout_height="62dp"
         android:text="Attendees"
         android:textSize="30dp" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Remove"
+        android:id="@+id/but_remove_inclass"
+        android:layout_below="@+id/adapter_attendees_list"/>
 </RelativeLayout>

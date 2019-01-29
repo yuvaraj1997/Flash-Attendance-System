@@ -13,8 +13,8 @@ import android.widget.Toast;
 
 import com.flash.yuvar.flashattendancesystem.Adapters.custom_request_adapter;
 import com.flash.yuvar.flashattendancesystem.Database.Request_access;
+import com.flash.yuvar.flashattendancesystem.Database.Subject_code;
 import com.flash.yuvar.flashattendancesystem.R;
-import com.flash.yuvar.flashattendancesystem.UserProfile;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -63,13 +63,21 @@ public class Lecture_request_acceptance extends AppCompatActivity {
         String userid = user.getUid ();
 
         final FirebaseDatabase database = FirebaseDatabase.getInstance ();
-        DatabaseReference myref = database.getReference ("users");
+        DatabaseReference myref = database.getReference ("subject_code");
 
-        myref.child (userid).addListenerForSingleValueEvent (new ValueEventListener ( ) {
+        myref.orderByChild("subject_code").equalTo(carriedclasscode).addListenerForSingleValueEvent (new ValueEventListener ( ) {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                UserProfile userProfile = dataSnapshot.getValue (UserProfile.class);
-                setLecturename(userProfile.getUserName());
+
+                for(DataSnapshot ds : dataSnapshot.getChildren()){
+
+
+                    Subject_code subjectCode = ds.getValue (Subject_code.class);
+                    setLecturename(subjectCode.getLecture_name());
+
+
+                }
+
 
 
 

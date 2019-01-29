@@ -47,6 +47,7 @@ public class StudentMainActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
 
 
+
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         final String userid = user.getUid();
         uid = userid;

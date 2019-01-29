@@ -8,7 +8,7 @@
 
     <TextView
         android:id="@+id/subname"
-        android:textSize="50sp"
+        android:textSize="30sp"
         android:textStyle="bold"
         android:textColor="@color/blue"
         android:text="@string/subject_code"

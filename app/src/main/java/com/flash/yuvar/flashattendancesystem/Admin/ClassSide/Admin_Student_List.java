@@ -1,4 +1,4 @@
-package com.flash.yuvar.flashattendancesystem.Lecture;
+package com.flash.yuvar.flashattendancesystem.Admin.ClassSide;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.flash.yuvar.flashattendancesystem.Adapters.student_percentage_adapter;
+import com.flash.yuvar.flashattendancesystem.Database.attendance_list_push_qr;
 import com.flash.yuvar.flashattendancesystem.Database.student_registered_list;
 import com.flash.yuvar.flashattendancesystem.R;
 import com.google.firebase.database.DataSnapshot;
@@ -21,7 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Lecture_Student_List extends AppCompatActivity {
+public class Admin_Student_List extends AppCompatActivity {
 
     String carriedregisteredid;
     private List<student_registered_list> requestList = new ArrayList<>();
@@ -31,17 +32,18 @@ public class Lecture_Student_List extends AppCompatActivity {
 
     private Integer percentage,originalcount;
     private student_percentage_adapter mAdapter;
+    private String classname = "n";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_lecture__student__list);
+        setContentView(R.layout.activity_admin__student__list);
 
         carriedregisteredid = getIntent ().getExtras ().getString ("CarriedRegisteredClassID");
 
         retrieve = new student_registered_list();
 
-        recyclerView = (RecyclerView) findViewById (R.id.recycler_view_studentlist_percentage);
+        recyclerView = (RecyclerView) findViewById (R.id.recycler_view_Admin_studentlist_percentage);
 
 
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
@@ -49,13 +51,23 @@ public class Lecture_Student_List extends AppCompatActivity {
         DatabaseReference ref2 = FirebaseDatabase.getInstance().getReference("student_registered_class").child(carriedregisteredid).child("attendance_list");
 
         ref2.addListenerForSingleValueEvent(new ValueEventListener() {
+            String date = "";
             Integer count=0;
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot ds: dataSnapshot.getChildren()){
 
+
+                    attendance_list_push_qr list = ds.getValue(attendance_list_push_qr.class);
+
                     count++;
+
+
+
+
+
                 }
+
 
                 setOriginalCount(count);
 
@@ -66,6 +78,13 @@ public class Lecture_Student_List extends AppCompatActivity {
 
             }
         });
+
+        //Toast.makeText(Admin_Student_List.this,classname,Toast.LENGTH_LONG).show();
+
+
+
+
+
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("student_registered_class").child(carriedregisteredid).child("student_list");
 
@@ -89,7 +108,7 @@ public class Lecture_Student_List extends AppCompatActivity {
 
 
                 mAdapter = new student_percentage_adapter(requestList);
-                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager (getApplicationContext());
+                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
                 recyclerView.setLayoutManager(mLayoutManager);
                 recyclerView.setItemAnimator(new DefaultItemAnimator());
 
@@ -104,6 +123,14 @@ public class Lecture_Student_List extends AppCompatActivity {
         });
 
 
+
+
+
+
+    }
+
+    private void setClassname(String date) {
+        this.classname = date;
     }
 
     private void setOriginalCount(Integer count) {
@@ -114,3 +141,5 @@ public class Lecture_Student_List extends AppCompatActivity {
         this.percentage = percentage;
     }
 }
+
+

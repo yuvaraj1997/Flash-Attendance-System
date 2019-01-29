@@ -1,9 +1,10 @@
-package com.flash.yuvar.flashattendancesystem.Lecture;
+package com.flash.yuvar.flashattendancesystem.Admin.StudentSide;
 
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
@@ -14,10 +15,12 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
-import com.flash.yuvar.flashattendancesystem.Database.attendance_list_push_qr;
-import com.flash.yuvar.flashattendancesystem.Database.lecture_profile_detail;
+import com.flash.yuvar.flashattendancesystem.Database.admin_course;
+import com.flash.yuvar.flashattendancesystem.Database.admin_profile_detail;
 import com.flash.yuvar.flashattendancesystem.R;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -29,55 +32,55 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Lecture_class_listDate_Activity extends AppCompatActivity {
+public class CourseList extends AppCompatActivity {
 
-    String carriedclasscode,carriedregisteredid;
+    private List<String> course = new ArrayList<String>();
 
-    DatabaseReference attendancelist;
-    private List<String> attendancelistid;
-    private List<String> dateandtime;
+
+
+    FloatingActionButton add;
+
+    String adminpass;
+
+
+
     ArrayAdapter<String> adapter;
-    ListView listView;
-    attendance_list_push_qr retrieve;
-    private String lecturepass;
+    ListView list;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate (savedInstanceState);
-        setContentView (R.layout.activity_lecture_class_list_date_);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_course_list);
 
-        carriedclasscode = getIntent ().getExtras ().getString ("CarriedClassName");
-        carriedregisteredid = getIntent ().getExtras ().getString ("CarriedRegisteredClassID");
+        list = (ListView) findViewById (R.id.listview_admin_courselist);
+        add = (FloatingActionButton)findViewById(R.id.button_admin_floating_add_course);
 
-        attendancelist = FirebaseDatabase.getInstance ().getReference ("student_registered_class").child(carriedregisteredid).child("attendance_list");
 
-        retrieve = new attendance_list_push_qr ();
-        listView = (ListView) findViewById (R.id.list_view_date);
+        DatabaseReference getcourse = FirebaseDatabase.getInstance().getReference("course");
 
-        attendancelistid = new ArrayList<> ();
-        dateandtime = new ArrayList<> ();
+        adapter = new ArrayAdapter<String> (this,R.layout.subject_info,R.id.subname,course);
 
-        adapter = new ArrayAdapter<String> (this,R.layout.subject_info,R.id.subname,dateandtime);
-
-        attendancelist.addValueEventListener (new ValueEventListener ( ) {
-
+        getcourse.orderByChild("course").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+
                 adapter.clear ();
-                attendancelistid.clear();
-                dateandtime.clear();
+                course.clear();
 
-                for(DataSnapshot ds: dataSnapshot.getChildren ()){
+                for(DataSnapshot ds : dataSnapshot.getChildren()){
+                    admin_course retrievecourse= ds.getValue(admin_course.class);
 
-
-                    retrieve = ds.getValue (attendance_list_push_qr.class);
-                    attendancelistid.add(retrieve.getAttendance_list_id ().toString ());
-                    Integer position = retrieve.getDateandtime().indexOf(" ");
-                    dateandtime.add (retrieve.getDateandtime ().substring(position+ 1,retrieve.getDateandtime().length()));
+                    course.add(retrievecourse.getCourse());
 
                 }
 
-                adapter.notifyDataSetChanged ();
-                listView.setAdapter (adapter);
+                adapter.notifyDataSetChanged();
+                list.setAdapter (adapter);
+
+
+
+                //Toast.makeText(CourseList.this, String.format(course.get(0) + course.size()),Toast.LENGTH_LONG).show();
+
             }
 
             @Override
@@ -86,27 +89,31 @@ public class Lecture_class_listDate_Activity extends AppCompatActivity {
             }
         });
 
+        registerForContextMenu(list);
 
-        registerForContextMenu(listView);
-
-        listView.setOnItemClickListener (new AdapterView.OnItemClickListener ( ) {
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent i = new Intent (getApplicationContext (), Admin_student_add.class);
 
-                String attendees_id = attendancelistid.get (position);
+                i.putExtra ("coursename",course.get(position));
 
-
-                Intent i = new Intent (getApplicationContext (),Lecture_Class_listAttendees_Activity.class);
-                i.putExtra ("CarriedAttendeessID",attendees_id);
-
-                i.putExtra ("CarriedRegisteredClassID",carriedregisteredid);
                 startActivity (i);
-
-
             }
         });
 
 
+
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent i = new Intent (getApplicationContext (), Admin_add_course.class);
+
+                startActivity (i);
+
+            }
+        });
 
 
 
@@ -154,9 +161,9 @@ public class Lecture_class_listDate_Activity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                lecture_profile_detail lecture = dataSnapshot.getValue(lecture_profile_detail.class);
+                admin_profile_detail admin = dataSnapshot.getValue(admin_profile_detail.class);
 
-                lecturepass = lecture.getPass();
+                adminpass = admin.getPass();
 
 
             }
@@ -167,11 +174,11 @@ public class Lecture_class_listDate_Activity extends AppCompatActivity {
             }
         });
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(Lecture_class_listDate_Activity.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(CourseList.this);
         builder.setTitle("Password");
 
         // Set up the input
-        final EditText input = new EditText(Lecture_class_listDate_Activity.this);
+        final EditText input = new EditText(CourseList.this);
         // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
         input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
         builder.setView(input);
@@ -184,17 +191,42 @@ public class Lecture_class_listDate_Activity extends AppCompatActivity {
 
 
 
-                if(m_Text.compareTo(lecturepass)==0){
+                if(m_Text.compareTo(adminpass)==0){
 
 
-                    DatabaseReference delete = FirebaseDatabase.getInstance().getReference("student_registered_class").child(carriedregisteredid).child("attendance_list").child(attendancelistid.get(position));
+                    DatabaseReference delete = FirebaseDatabase.getInstance().getReference("course");
 
-                    delete.removeValue();
+                    delete.orderByChild("course").equalTo(course.get(position)).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            if(dataSnapshot.exists()){
+                                for(DataSnapshot ds: dataSnapshot.getChildren()){
+                                    DatabaseReference remove = FirebaseDatabase.getInstance().getReference("course").child(ds.getKey());
+
+                                    remove.removeValue().addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Toast.makeText(CourseList.this,"Failed",Toast.LENGTH_LONG).show();
+                                        }
+                                    });
+
+
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
 
 
 
 
-                    AlertDialog.Builder builder = new AlertDialog.Builder(Lecture_class_listDate_Activity.this);
+
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(CourseList.this);
                     builder.setTitle("Success");
                     builder.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
                         @Override
@@ -209,7 +241,7 @@ public class Lecture_class_listDate_Activity extends AppCompatActivity {
                     alert1.show();
 
                 }else{
-                    AlertDialog.Builder builder = new AlertDialog.Builder(Lecture_class_listDate_Activity.this);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(CourseList.this);
                     builder.setTitle("Failed");
                     builder.setPositiveButton("End", new DialogInterface.OnClickListener() {
                         @Override
@@ -241,5 +273,4 @@ public class Lecture_class_listDate_Activity extends AppCompatActivity {
 
 
     }
-
 }

@@ -1,4 +1,4 @@
-package com.flash.yuvar.flashattendancesystem.Lecture;
+package com.flash.yuvar.flashattendancesystem.Admin.ClassSide;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -15,13 +15,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.flash.yuvar.flashattendancesystem.Database.Request_access;
 import com.flash.yuvar.flashattendancesystem.Database.Subject_code;
-import com.flash.yuvar.flashattendancesystem.Database.lecture_profile_detail;
+import com.flash.yuvar.flashattendancesystem.Database.admin_profile_detail;
 import com.flash.yuvar.flashattendancesystem.Database.student_registered_list;
 import com.flash.yuvar.flashattendancesystem.Database.students_registered_class;
+import com.flash.yuvar.flashattendancesystem.Lecture.Lecture_class_listDate_Activity;
+import com.flash.yuvar.flashattendancesystem.Lecture.Lecture_request_acceptance;
 import com.flash.yuvar.flashattendancesystem.QRCode.QRCode_Generate_Activity;
 import com.flash.yuvar.flashattendancesystem.R;
 import com.github.mikephil.charting.animation.Easing;
@@ -41,7 +42,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class Lecture_Class_Detail extends AppCompatActivity {
+public class Admin_Class_Detail extends AppCompatActivity {
 
     private String carriedclasscode,carriedregisteredid;
 
@@ -49,7 +50,7 @@ public class Lecture_Class_Detail extends AppCompatActivity {
 
     private Button viewclasses,classpassword;
 
-    private String Classcode,lecturepass,classpass;
+    private String Classcode,adminpass,classpass;
 
     private PieChart chart;
 
@@ -65,22 +66,23 @@ public class Lecture_Class_Detail extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_lecture__class__detail);
+        setContentView(R.layout.activity_admin__class__detail);
+
 
         carriedclasscode = getIntent ().getExtras ().getString ("CarriedClassName");
 
         carriedregisteredid = getIntent ().getExtras ().getString ("CarriedRegisteredClassID");
 
-        requested = (TextView)findViewById(R.id.lecture_class_requested);
-        classcode = (TextView)findViewById(R.id.lecture_class_detail_classcode);
-        studentcount = (TextView)findViewById(R.id.lecture_class_detail_student_Registered);
-        classescount = (TextView)findViewById(R.id.lecture_class_detail_classes);
-        chart = (PieChart)findViewById(R.id.classdetailchart);
+        requested = (TextView)findViewById(R.id.admin_class_detail__requested);
+        classcode = (TextView)findViewById(R.id.admin_class_detail__classcode);
+        studentcount = (TextView)findViewById(R.id.admin_class_detail__student_Registered);
+        classescount = (TextView)findViewById(R.id.admin_class_detail__classes);
+        chart = (PieChart)findViewById(R.id.admin_class_detail_classdetailchart);
 
-        swipeRefreshLayout=(SwipeRefreshLayout)findViewById(R.id.swipe);
+        swipeRefreshLayout=(SwipeRefreshLayout)findViewById(R.id.admin_class_detail_swipe);
 
-        classpassword = (Button)findViewById(R.id.button_lecture_class_detail_view_password);
-        viewclasses = (Button)findViewById(R.id.button_lecture_class_detail_view_classes);
+        classpassword = (Button)findViewById(R.id.button_admin_class_detail__view_password);
+        viewclasses = (Button)findViewById(R.id.button_admin_class_detail__view_classes);
 
 
 
@@ -113,7 +115,7 @@ public class Lecture_Class_Detail extends AppCompatActivity {
         classescount.setOnClickListener (new View.OnClickListener ( ) {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent (getApplicationContext (),Lecture_class_listDate_Activity.class);
+                Intent i = new Intent (getApplicationContext (), Lecture_class_listDate_Activity.class);
 
                 i.putExtra ("CarriedClassName",carriedclasscode);
                 i.putExtra ("CarriedRegisteredClassID",carriedregisteredid);
@@ -126,7 +128,7 @@ public class Lecture_Class_Detail extends AppCompatActivity {
         viewclasses.setOnClickListener (new View.OnClickListener ( ) {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent (getApplicationContext (),QRCode_Generate_Activity.class);
+                Intent i = new Intent (getApplicationContext (), QRCode_Generate_Activity.class);
                 i.putExtra ("CarriedClassName",carriedclasscode);
                 i.putExtra ("CarriedRegisteredClassID",carriedregisteredid);
                 startActivity (i);
@@ -141,7 +143,7 @@ public class Lecture_Class_Detail extends AppCompatActivity {
                 DatabaseReference retrieve = FirebaseDatabase.getInstance().getReference("student_registered_class").child(carriedregisteredid)
                         .child("student_list");
 
-                Intent i = new Intent (getApplicationContext (),Lecture_Student_List.class);
+                Intent i = new Intent (getApplicationContext (), Admin_Student_List.class);
 
                 i.putExtra ("CarriedRegisteredClassID",carriedregisteredid);
                 startActivity (i);
@@ -164,15 +166,15 @@ public class Lecture_Class_Detail extends AppCompatActivity {
 
 
 
-                DatabaseReference retrievelecturepass = FirebaseDatabase.getInstance().getReference("users").child(userid);
+                DatabaseReference retrieveadminpass = FirebaseDatabase.getInstance().getReference("users").child(userid);
 
-                retrievelecturepass.addListenerForSingleValueEvent(new ValueEventListener() {
+                retrieveadminpass.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                        lecture_profile_detail lecture = dataSnapshot.getValue(lecture_profile_detail.class);
+                        admin_profile_detail admin = dataSnapshot.getValue(admin_profile_detail.class);
 
-                        lecturepass = lecture.getPass();
+                        adminpass = admin.getPass();
 
 
                     }
@@ -208,11 +210,11 @@ public class Lecture_Class_Detail extends AppCompatActivity {
 
 
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(Lecture_Class_Detail.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(Admin_Class_Detail.this);
                 builder.setTitle("Password");
 
                 // Set up the input
-                final EditText input = new EditText(Lecture_Class_Detail.this);
+                final EditText input = new EditText(Admin_Class_Detail.this);
                 // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
                 input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
                 builder.setView(input);
@@ -225,10 +227,10 @@ public class Lecture_Class_Detail extends AppCompatActivity {
 
 
 
-                        if(m_Text.compareTo(lecturepass)==0){
+                        if(m_Text.compareTo(adminpass)==0){
 
 
-                            AlertDialog.Builder builder = new AlertDialog.Builder(Lecture_Class_Detail.this);
+                            AlertDialog.Builder builder = new AlertDialog.Builder(Admin_Class_Detail.this);
                             builder.setTitle("Success");
                             builder.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
                                 @Override
@@ -243,7 +245,7 @@ public class Lecture_Class_Detail extends AppCompatActivity {
                             alert1.show();
 
                         }else{
-                            AlertDialog.Builder builder = new AlertDialog.Builder(Lecture_Class_Detail.this);
+                            AlertDialog.Builder builder = new AlertDialog.Builder(Admin_Class_Detail.this);
                             builder.setTitle("Failed");
                             builder.setPositiveButton("End", new DialogInterface.OnClickListener() {
                                 @Override
@@ -298,25 +300,7 @@ public class Lecture_Class_Detail extends AppCompatActivity {
         });
 
 
-        timer = new CountDownTimer(100, 1000) {
-            @Override
-            public void onTick(final long millSecondsLeftToFinish) {
 
-            }
-
-            @Override
-            public void onFinish() {
-                callclassdetail();
-                callclassCount();
-                callstudentCount();
-                callRequestCount();
-
-
-
-                timer.start();
-            }
-        };
-        timer.start();
 
 
     }
@@ -391,7 +375,7 @@ public class Lecture_Class_Detail extends AppCompatActivity {
                 Double present = (percentagedecimal/countingstudent)*100;
                 Double absent = 100 - present;
 
-                Toast.makeText(Lecture_Class_Detail.this,present.toString(),Toast.LENGTH_LONG).show();
+                //Toast.makeText(Admin_Class_Detail.this,present.toString(),Toast.LENGTH_LONG).show();
 
 
                 values.add(new PieEntry(present.floatValue(),"Present"));
@@ -529,7 +513,7 @@ public class Lecture_Class_Detail extends AppCompatActivity {
     }
 
     private void requestlist() {
-        Intent i = new Intent (getApplicationContext (),Lecture_request_acceptance.class);
+        Intent i = new Intent (getApplicationContext (), Lecture_request_acceptance.class);
         i.putExtra ("CarriedClassName",carriedclasscode);
         startActivity (i);
     }

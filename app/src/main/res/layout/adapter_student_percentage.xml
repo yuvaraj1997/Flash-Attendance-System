@@ -27,7 +27,19 @@
         android:text="Send Warning Letter"
         android:id="@+id/but_send_warning_issue"
         android:layout_below="@+id/student_name_percentage"
+
         />
+
+    <Button
+        android:id="@+id/but_remove_student"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/student_percentage"
+        android:layout_alignEnd="@+id/but_send_warning_issue"
+
+        android:layout_marginTop="-2dp"
+        android:layout_marginEnd="-93dp"
+        android:text="Delete" />
 
     <TextView
         android:id="@+id/student_percentage"

@@ -1,4 +1,4 @@
-package com.flash.yuvar.flashattendancesystem.Admin;
+package com.flash.yuvar.flashattendancesystem.Admin.ClassSide;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -83,10 +83,6 @@ public class admin_add_class extends AppCompatActivity {
                         names.add(Name);
 
                     }
-
-
-
-
                     Collections.sort(names);
                     final ArrayAdapter<String> areasAdapter = new ArrayAdapter<String>(admin_add_class.this, android.R.layout.simple_spinner_item, names);
                     areasAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -108,16 +104,6 @@ public class admin_add_class extends AppCompatActivity {
                     });
 
                 }
-
-
-
-
-
-
-
-
-
-
 
             }
 

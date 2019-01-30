@@ -25,7 +25,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppThemeLogin"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".Admin.StudentSide.Admin_add_course"></activity>
+        <activity android:name=".Admin.StudentSide.Admin_student_details"></activity>
+        <activity android:name=".Admin.StudentSide.AdminRegisterStudent" />
+        <activity android:name=".Admin.StudentSide.Admin_add_course" />
         <activity android:name=".Admin.StudentSide.CourseList" />
         <activity android:name=".OTP.PhoneNoAuth" />
         <activity android:name=".Admin.StudentSide.Admin_student_add" />

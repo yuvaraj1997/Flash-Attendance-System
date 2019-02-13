@@ -2,12 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/option_delete"
-        android:title="Delete" />
+        android:id="@+id/option_done"
+        android:title="Done" />
 
-    <item
-        android:id="@+id/option_update"
-        android:title="Update" />
+
 
 
 </menu>

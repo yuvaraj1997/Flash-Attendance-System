@@ -193,7 +193,7 @@ public class Admin_view_class extends AppCompatActivity {
         });
 
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(Admin_view_class.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(Admin_view_class.this,R.style.AlertDialogStyle);
         builder.setTitle("Password");
 
         // Set up the input
@@ -304,7 +304,7 @@ public class Admin_view_class extends AppCompatActivity {
 
 
 
-                    AlertDialog.Builder builder = new AlertDialog.Builder(Admin_view_class.this);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(Admin_view_class.this,R.style.AlertDialogStyle);
                     builder.setTitle("Success");
                     builder.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
                         @Override
@@ -319,7 +319,7 @@ public class Admin_view_class extends AppCompatActivity {
                     alert1.show();
 
                 }else{
-                    AlertDialog.Builder builder = new AlertDialog.Builder(Admin_view_class.this);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(Admin_view_class.this,R.style.AlertDialogStyle);
                     builder.setTitle("Failed");
                     builder.setPositiveButton("End", new DialogInterface.OnClickListener() {
                         @Override

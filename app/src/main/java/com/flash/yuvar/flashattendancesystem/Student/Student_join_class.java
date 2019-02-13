@@ -134,22 +134,6 @@ public class Student_join_class extends AppCompatActivity {
                     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                 }
 
                 adapter = new student_join_class_adapter(list);

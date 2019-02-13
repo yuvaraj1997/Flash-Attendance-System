@@ -6,7 +6,7 @@
 
     <TextView
         android:id="@+id/adapter_absent_name"
-        android:layout_width="287dp"
+        android:layout_width="200dp"
         android:layout_height="64dp"
         android:text="TextView"
         android:textSize="20dp" />

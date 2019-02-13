@@ -143,7 +143,7 @@ public class student_join_class_adapter extends  RecyclerView.Adapter<student_jo
 
                 final Subject_code subject_code1 =list.get(position);
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
+                AlertDialog.Builder builder = new AlertDialog.Builder(ctx,R.style.AlertDialogStyle);
                 builder.setTitle("Password");
 
                 // Set up the input
@@ -167,7 +167,7 @@ public class student_join_class_adapter extends  RecyclerView.Adapter<student_jo
                         if(password.compareTo(verification)==0){
                             refresh();
                             pushrequestaccess (subject_code1.getSubject_code(),RegisteredUserID,request_id,subject_code1.getSubject_id(),subject_code1.getLecture_name());
-                            AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
+                            AlertDialog.Builder builder = new AlertDialog.Builder(ctx,R.style.AlertDialogStyle);
                             builder.setTitle("Success");
                             builder.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
                                 @Override
@@ -181,7 +181,7 @@ public class student_join_class_adapter extends  RecyclerView.Adapter<student_jo
                             alert1.show();
 
                         }else{
-                            AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
+                            AlertDialog.Builder builder = new AlertDialog.Builder(ctx,R.style.AlertDialogStyle);
                             builder.setTitle("Failed");
                             builder.setPositiveButton("End", new DialogInterface.OnClickListener() {
                                 @Override

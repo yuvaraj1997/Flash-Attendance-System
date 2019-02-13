@@ -2,6 +2,7 @@ package com.flash.yuvar.flashattendancesystem.Adapters;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 import com.flash.yuvar.flashattendancesystem.Database.admin_profile_detail;
 import com.flash.yuvar.flashattendancesystem.Database.student_registered_list;
 import com.flash.yuvar.flashattendancesystem.Database.students_registered_class;
+import com.flash.yuvar.flashattendancesystem.Lecture.Lecture_Email_Intent;
 import com.flash.yuvar.flashattendancesystem.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -91,6 +93,19 @@ public class student_percentage_adapter extends RecyclerView.Adapter<student_per
 
         final String userid = user.getUid ();
 
+        holder.but_send_Warning.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ctx, Lecture_Email_Intent.class);
+
+
+                intent.putExtra("uID", list.getuID());
+
+
+                ctx.startActivity(intent);
+            }
+        });
+
 
 
 
@@ -125,7 +140,7 @@ public class student_percentage_adapter extends RecyclerView.Adapter<student_per
                                 final String adminpass = admin.getPass();
 
 
-                                AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
+                                AlertDialog.Builder builder = new AlertDialog.Builder(ctx,R.style.AlertDialogStyle);
                                 builder.setTitle("Password");
 
                                 // Set up the input
@@ -150,7 +165,7 @@ public class student_percentage_adapter extends RecyclerView.Adapter<student_per
 
 
 
-                                            AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
+                                            AlertDialog.Builder builder = new AlertDialog.Builder(ctx,R.style.AlertDialogStyle);
                                             builder.setTitle("Success");
                                             builder.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
                                                 @Override
@@ -165,7 +180,7 @@ public class student_percentage_adapter extends RecyclerView.Adapter<student_per
                                             alert1.show();
 
                                         }else{
-                                            AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
+                                            AlertDialog.Builder builder = new AlertDialog.Builder(ctx,R.style.AlertDialogStyle);
                                             builder.setTitle("Failed");
                                             builder.setPositiveButton("End", new DialogInterface.OnClickListener() {
                                                 @Override

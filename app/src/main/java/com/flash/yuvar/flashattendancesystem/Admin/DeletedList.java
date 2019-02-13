@@ -1,10 +1,8 @@
-package com.flash.yuvar.flashattendancesystem.Admin.StudentSide;
+package com.flash.yuvar.flashattendancesystem.Admin;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
@@ -15,12 +13,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import com.flash.yuvar.flashattendancesystem.Database.admin_course;
 import com.flash.yuvar.flashattendancesystem.Database.admin_profile_detail;
+import com.flash.yuvar.flashattendancesystem.Database.deleteduser;
 import com.flash.yuvar.flashattendancesystem.R;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -32,56 +28,51 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CourseList extends AppCompatActivity {
-
-    private List<String> course = new ArrayList<String>();
 
 
+public class DeletedList extends AppCompatActivity {
 
-    FloatingActionButton add;
+    private List<String> deleteduser;
+    ArrayAdapter<String> adapter;
+    com.flash.yuvar.flashattendancesystem.Database.deleteduser retrieve;
+    ListView list;
 
     String adminpass;
 
-
-
-    ArrayAdapter<String> adapter;
-    ListView list;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_course_list);
+        setContentView(R.layout.activity_deleted_list);
 
-        list = (ListView) findViewById (R.id.listview_admin_courselist);
-        add = (FloatingActionButton)findViewById(R.id.button_admin_floating_add_course);
+        list = (ListView)findViewById(R.id.deleted_list);
+
+        retrieve = new deleteduser();
+
+        deleteduser = new ArrayList<>();
+
+        adapter = new ArrayAdapter<String> (this,R.layout.subject_info,R.id.subname,deleteduser);
 
 
-        DatabaseReference getcourse = FirebaseDatabase.getInstance().getReference("course");
+        final DatabaseReference deleteduserretrieve = FirebaseDatabase.getInstance ().getReference ("deleteduser");
+        deleteduserretrieve.addValueEventListener (new ValueEventListener( ) {
 
-        adapter = new ArrayAdapter<String> (this,R.layout.subject_info,R.id.subname,course);
-
-        getcourse.orderByChild("course").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-
-
                 adapter.clear ();
-                course.clear();
+                deleteduser.clear();
 
-                for(DataSnapshot ds : dataSnapshot.getChildren()){
-                    admin_course retrievecourse= ds.getValue(admin_course.class);
 
-                    course.add(retrievecourse.getCourse());
+                for(DataSnapshot ds: dataSnapshot.getChildren ()){
+
+
+                    retrieve = ds.getValue (deleteduser.class);
+                    deleteduser.add(retrieve.getEmail());
+
 
                 }
 
-                adapter.notifyDataSetChanged();
+                adapter.notifyDataSetChanged ();
                 list.setAdapter (adapter);
-
-
-
-                //Toast.makeText(CourseList.this, String.format(course.get(0) + course.size()),Toast.LENGTH_LONG).show();
-
             }
 
             @Override
@@ -90,32 +81,8 @@ public class CourseList extends AppCompatActivity {
             }
         });
 
+
         registerForContextMenu(list);
-
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent i = new Intent (getApplicationContext (), Admin_student_add.class);
-
-                i.putExtra ("coursename",course.get(position));
-
-                startActivity (i);
-            }
-        });
-
-
-
-        add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent i = new Intent (getApplicationContext (), Admin_add_course.class);
-
-                startActivity (i);
-
-            }
-        });
-
 
 
     }
@@ -125,7 +92,7 @@ public class CourseList extends AppCompatActivity {
         super.onCreateContextMenu(menu, v, menuInfo);
         menu.setHeaderTitle("Choose your option");
 
-        getMenuInflater().inflate(R.menu.listview_menu, menu);
+        getMenuInflater().inflate(R.menu.listview_menu_update, menu);
     }
 
     @Override
@@ -135,7 +102,7 @@ public class CourseList extends AppCompatActivity {
 
 
         switch (item.getItemId()) {
-            case R.id.option_delete:
+            case R.id.option_done:
                 Delete(info.position);
 
 
@@ -175,11 +142,11 @@ public class CourseList extends AppCompatActivity {
             }
         });
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(CourseList.this,R.style.AlertDialogStyle);
+        AlertDialog.Builder builder = new AlertDialog.Builder(DeletedList.this);
         builder.setTitle("Password");
 
         // Set up the input
-        final EditText input = new EditText(CourseList.this);
+        final EditText input = new EditText(DeletedList.this);
         // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
         input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
         builder.setView(input);
@@ -195,25 +162,16 @@ public class CourseList extends AppCompatActivity {
                 if(m_Text.compareTo(adminpass)==0){
 
 
-                    DatabaseReference delete = FirebaseDatabase.getInstance().getReference("course");
+                    DatabaseReference delete = FirebaseDatabase.getInstance().getReference("deleteduser");
 
-                    delete.orderByChild("course").equalTo(course.get(position)).addListenerForSingleValueEvent(new ValueEventListener() {
+                    delete.orderByChild("email").equalTo(deleteduser.get(position)).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            if(dataSnapshot.exists()){
-                                for(DataSnapshot ds: dataSnapshot.getChildren()){
-                                    DatabaseReference remove = FirebaseDatabase.getInstance().getReference("course").child(ds.getKey());
-
-                                    remove.removeValue().addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            Toast.makeText(CourseList.this,"Failed",Toast.LENGTH_LONG).show();
-                                        }
-                                    });
-
-
-                                }
+                            for(DataSnapshot ds : dataSnapshot.getChildren()){
+                                DatabaseReference remove = FirebaseDatabase.getInstance().getReference("deleteduser").child(ds.getKey());
+                                remove.removeValue();
                             }
+
                         }
 
                         @Override
@@ -227,7 +185,7 @@ public class CourseList extends AppCompatActivity {
 
 
 
-                    AlertDialog.Builder builder = new AlertDialog.Builder(CourseList.this,R.style.AlertDialogStyle);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(DeletedList.this);
                     builder.setTitle("Success");
                     builder.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
                         @Override
@@ -237,12 +195,12 @@ public class CourseList extends AppCompatActivity {
                         }
                     });
 
-                    builder.setMessage("Deleted" );
+                    builder.setMessage("Done" );
                     AlertDialog alert1 = builder.create();
                     alert1.show();
 
                 }else{
-                    AlertDialog.Builder builder = new AlertDialog.Builder(CourseList.this,R.style.AlertDialogStyle);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(DeletedList.this);
                     builder.setTitle("Failed");
                     builder.setPositiveButton("End", new DialogInterface.OnClickListener() {
                         @Override

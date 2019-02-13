@@ -1,58 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
-
-
-    <TextView
-        android:id="@+id/student_name_percentage"
-        android:layout_width="268dp"
-        android:layout_height="88dp"
-        android:layout_alignParentTop="true"
-        android:text="Name"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="0dp"
-        android:layout_marginEnd="143dp"
-        android:textSize="30dp"
-        android:textStyle="bold" />
+    >
 
 
 
 
 
-    <Button
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Send Warning Letter"
-        android:id="@+id/but_send_warning_issue"
-        android:layout_below="@+id/student_name_percentage"
+        android:orientation="vertical"
 
-        />
+        >
 
-    <Button
-        android:id="@+id/but_remove_student"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/student_percentage"
-        android:layout_alignEnd="@+id/but_send_warning_issue"
 
-        android:layout_marginTop="-2dp"
-        android:layout_marginEnd="-93dp"
-        android:text="Delete" />
-
-    <TextView
-        android:id="@+id/student_percentage"
-        android:layout_width="136dp"
-        android:layout_height="86dp"
-        android:layout_alignBottom="@+id/student_name_percentage"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="1dp"
-        android:layout_marginBottom="0dp"
-        android:text="TextView"
-        android:textSize="30dp" />
+        <TextView
+            android:id="@+id/student_name_percentage"
+            android:layout_width="268dp"
+            android:layout_height="88dp"
+            android:layout_alignParentTop="true"
+            android:text="Name"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="143dp"
+            android:textSize="30dp"
+            android:textStyle="bold" />
 
 
 
 
-</RelativeLayout>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Send Warning Letter"
+            android:id="@+id/but_send_warning_issue"
+            android:layout_below="@+id/student_name_percentage"
+
+            />
+
+        <Button
+            android:id="@+id/but_remove_student"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/student_percentage"
+            android:layout_alignEnd="@+id/but_send_warning_issue"
+
+            android:layout_marginTop="-2dp"
+            android:layout_marginEnd="-93dp"
+            android:text="Delete" />
+
+        <TextView
+            android:id="@+id/student_percentage"
+            android:layout_width="136dp"
+            android:layout_height="86dp"
+            android:layout_alignBottom="@+id/student_name_percentage"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="1dp"
+            android:layout_marginBottom="0dp"
+            android:text="TextView"
+            android:textSize="30dp" />
+
+
+
+    </RelativeLayout>
+
+
+
+
+
+
+
+</android.support.v7.widget.CardView>

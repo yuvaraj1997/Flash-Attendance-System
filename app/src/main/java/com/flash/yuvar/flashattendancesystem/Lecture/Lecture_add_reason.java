@@ -177,7 +177,7 @@ public class Lecture_add_reason extends AppCompatActivity {
             });
 
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(Lecture_add_reason.this);
+            AlertDialog.Builder builder = new AlertDialog.Builder(Lecture_add_reason.this,R.style.AlertDialogStyle);
             builder.setTitle("Password");
 
             // Set up the input
@@ -243,7 +243,7 @@ public class Lecture_add_reason extends AppCompatActivity {
                         });
 
 
-                        AlertDialog.Builder builder = new AlertDialog.Builder(Lecture_add_reason.this);
+                        AlertDialog.Builder builder = new AlertDialog.Builder(Lecture_add_reason.this,R.style.AlertDialogStyle);
                         builder.setTitle("Success");
                         builder.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
                             @Override
@@ -264,7 +264,7 @@ public class Lecture_add_reason extends AppCompatActivity {
                         alert1.show();
 
                     }else{
-                        AlertDialog.Builder builder = new AlertDialog.Builder(Lecture_add_reason.this);
+                        AlertDialog.Builder builder = new AlertDialog.Builder(Lecture_add_reason.this,R.style.AlertDialogStyle);
                         builder.setTitle("Failed");
                         builder.setPositiveButton("End", new DialogInterface.OnClickListener() {
                             @Override

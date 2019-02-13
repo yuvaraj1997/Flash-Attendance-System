@@ -6,6 +6,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+
+
+
+
     <TextView
         android:id="@+id/subname"
         android:textSize="30sp"

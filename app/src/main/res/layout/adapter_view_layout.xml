@@ -8,6 +8,9 @@
     android:orientation="vertical"
 >
 
+
+
+
     <TextView
         android:id="@+id/classcode"
         android:layout_width="match_parent"

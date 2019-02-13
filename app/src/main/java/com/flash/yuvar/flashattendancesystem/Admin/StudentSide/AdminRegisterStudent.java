@@ -211,7 +211,8 @@ public class AdminRegisterStudent extends AppCompatActivity {
                         push.setValue(student);
 
                         mauth.signOut();
-                        Toast.makeText(AdminRegisterStudent.this,mauth.getUid().toString(),Toast.LENGTH_LONG).show();
+                        finish();
+                        //Toast.makeText(AdminRegisterStudent.this,mauth.getUid().toString(),Toast.LENGTH_LONG).show();
                         
                     }
                 });

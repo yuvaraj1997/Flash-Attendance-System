@@ -208,7 +208,7 @@ public class Lecture_Class_Detail extends AppCompatActivity {
 
 
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(Lecture_Class_Detail.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(Lecture_Class_Detail.this,R.style.AlertDialogStyle);
                 builder.setTitle("Password");
 
                 // Set up the input
@@ -228,7 +228,7 @@ public class Lecture_Class_Detail extends AppCompatActivity {
                         if(m_Text.compareTo(lecturepass)==0){
 
 
-                            AlertDialog.Builder builder = new AlertDialog.Builder(Lecture_Class_Detail.this);
+                            AlertDialog.Builder builder = new AlertDialog.Builder(Lecture_Class_Detail.this,R.style.AlertDialogStyle);
                             builder.setTitle("Success");
                             builder.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
                                 @Override
@@ -243,7 +243,7 @@ public class Lecture_Class_Detail extends AppCompatActivity {
                             alert1.show();
 
                         }else{
-                            AlertDialog.Builder builder = new AlertDialog.Builder(Lecture_Class_Detail.this);
+                            AlertDialog.Builder builder = new AlertDialog.Builder(Lecture_Class_Detail.this,R.style.AlertDialogStyle);
                             builder.setTitle("Failed");
                             builder.setPositiveButton("End", new DialogInterface.OnClickListener() {
                                 @Override
@@ -284,10 +284,12 @@ public class Lecture_Class_Detail extends AppCompatActivity {
                     @Override
                     public void run() {
                         swipeRefreshLayout.setRefreshing(false);
+                        Piechart();
                         callclassdetail();
                         callclassCount();
                         callstudentCount();
                         callRequestCount();
+
 
 
 
@@ -298,25 +300,6 @@ public class Lecture_Class_Detail extends AppCompatActivity {
         });
 
 
-        timer = new CountDownTimer(100, 1000) {
-            @Override
-            public void onTick(final long millSecondsLeftToFinish) {
-
-            }
-
-            @Override
-            public void onFinish() {
-                callclassdetail();
-                callclassCount();
-                callstudentCount();
-                callRequestCount();
-
-
-
-                timer.start();
-            }
-        };
-        timer.start();
 
 
     }

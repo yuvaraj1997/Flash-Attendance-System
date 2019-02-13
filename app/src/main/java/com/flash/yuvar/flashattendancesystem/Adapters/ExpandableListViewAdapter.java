@@ -33,7 +33,7 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
     private String coursename;
 
 
-    public ExpandableListViewAdapter(final Context ctx, String coursename, final Integer count, List<String> year){
+    public ExpandableListViewAdapter(final Context ctx, final String coursename, final Integer count, List<String> year){
         this.ctx = ctx;
         this.coursename = coursename;
         groupnames = new String[count];
@@ -70,8 +70,12 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
 
                     for(DataSnapshot ds : dataSnapshot.getChildren()){
                         UserProfile student = ds.getValue(UserProfile.class);
-                        childnames[finalI][newadd] = student.getName();
-                        newadd++;
+
+                        if(student.getCourse().compareTo(coursename)==0){
+                            childnames[finalI][newadd] = student.getName();
+                            newadd++;
+                        }
+
 
                         //Toast.makeText(ctx,student.getName(),Toast.LENGTH_LONG).show();
 

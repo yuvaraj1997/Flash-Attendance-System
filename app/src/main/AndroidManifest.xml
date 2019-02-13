@@ -25,7 +25,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppThemeLogin"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".Admin.StudentSide.Admin_student_details"></activity>
+        <activity android:name=".Lecture.Lecture_Email_Intent"></activity>
+        <activity android:name=".Admin.StudentSide.Admin_student_timetable" />
+        <activity android:name=".Lecture.Lecture_Attendance_Table" />
+        <activity android:name=".Admin.LectureSide.LectureRegister" />
+        <activity android:name=".Admin.LectureSide.lecture_detail_view" />
+        <activity android:name=".Admin.LectureSide.LectureList" />
+        <activity android:name=".Admin.DeletedList" />
+        <activity android:name=".Admin.StudentSide.Admin_student_details" />
         <activity android:name=".Admin.StudentSide.AdminRegisterStudent" />
         <activity android:name=".Admin.StudentSide.Admin_add_course" />
         <activity android:name=".Admin.StudentSide.CourseList" />

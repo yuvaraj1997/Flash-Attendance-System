@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.flash.yuvar.flashattendancesystem.Database.admin_profile_detail;
 import com.flash.yuvar.flashattendancesystem.Database.student_registered_list;
@@ -97,7 +98,7 @@ public class student_inclass_adapter extends  RecyclerView.Adapter<student_incla
 
                         final String pass = admin.getPass();
 
-                        AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
+                        AlertDialog.Builder builder = new AlertDialog.Builder(ctx,R.style.AlertDialogStyle);
                         builder.setTitle("Password");
 
                         // Set up the input
@@ -118,7 +119,7 @@ public class student_inclass_adapter extends  RecyclerView.Adapter<student_incla
                                     removefromusers(list.getCarriedregisteredid(), list.getCarriedAttendeeID(), list.getuID());
 
 
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(ctx,R.style.AlertDialogStyle);
                                     builder.setTitle("Success");
                                     builder.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
                                         @Override
@@ -133,7 +134,7 @@ public class student_inclass_adapter extends  RecyclerView.Adapter<student_incla
                                     alert1.show();
 
                                 } else {
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(ctx,R.style.AlertDialogStyle);
                                     builder.setTitle("Failed");
                                     builder.setPositiveButton("End", new DialogInterface.OnClickListener() {
                                         @Override
@@ -179,7 +180,7 @@ public class student_inclass_adapter extends  RecyclerView.Adapter<student_incla
 
     }
 
-    private void removefromusers(final String carriedregisteredid, final String carriedAttendeeID, String getuID) {
+    private void removefromusers(final String carriedregisteredid, final String carriedAttendeeID, final String getuID) {
 
         DatabaseReference remove = FirebaseDatabase.getInstance().getReference("student_registered_class").child(carriedregisteredid)
                 .child("attendance_list").child(carriedAttendeeID).child("attendees");
@@ -194,6 +195,43 @@ public class student_inclass_adapter extends  RecyclerView.Adapter<student_incla
 
                     del.removeValue();
 
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+        DatabaseReference addcount = FirebaseDatabase.getInstance().getReference("student_registered_class").child(carriedregisteredid).child("student_list");
+
+        addcount.orderByChild("uID").equalTo(getuID).addListenerForSingleValueEvent(new ValueEventListener() {
+            Integer count =0;
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    for(DataSnapshot ds: dataSnapshot.getChildren()){
+                        student_registered_list list2 = ds.getValue(student_registered_list.class);
+
+                        this.count = list2.getCount();
+
+                        count--;
+
+                        DatabaseReference update = FirebaseDatabase.getInstance().getReference("student_registered_class").child(carriedregisteredid).child("student_list")
+                                .child(ds.getKey().toString());
+
+                        student_registered_list push = new student_registered_list(getuID,list2.getName(),count);
+
+                        update.setValue(push);
+
+                        Toast.makeText(ctx,"Success",Toast.LENGTH_LONG).show();
+
+
+
+
+                    }
                 }
             }
 

@@ -210,7 +210,7 @@ public class Admin_Class_Detail extends AppCompatActivity {
 
 
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(Admin_Class_Detail.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(Admin_Class_Detail.this,R.style.AlertDialogStyle);
                 builder.setTitle("Password");
 
                 // Set up the input
@@ -230,7 +230,7 @@ public class Admin_Class_Detail extends AppCompatActivity {
                         if(m_Text.compareTo(adminpass)==0){
 
 
-                            AlertDialog.Builder builder = new AlertDialog.Builder(Admin_Class_Detail.this);
+                            AlertDialog.Builder builder = new AlertDialog.Builder(Admin_Class_Detail.this,R.style.AlertDialogStyle);
                             builder.setTitle("Success");
                             builder.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
                                 @Override
@@ -245,7 +245,7 @@ public class Admin_Class_Detail extends AppCompatActivity {
                             alert1.show();
 
                         }else{
-                            AlertDialog.Builder builder = new AlertDialog.Builder(Admin_Class_Detail.this);
+                            AlertDialog.Builder builder = new AlertDialog.Builder(Admin_Class_Detail.this,R.style.AlertDialogStyle);
                             builder.setTitle("Failed");
                             builder.setPositiveButton("End", new DialogInterface.OnClickListener() {
                                 @Override

@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.flash.yuvar.flashattendancesystem.Database.attendance_list_push_qr;
 import com.flash.yuvar.flashattendancesystem.Database.student_registered_list;
 import com.flash.yuvar.flashattendancesystem.Database.students_registered_class;
+import com.flash.yuvar.flashattendancesystem.R;
 import com.flash.yuvar.flashattendancesystem.UserProfile;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -132,7 +133,7 @@ public class ScanCode_Activity extends AppCompatActivity implements ZXingScanner
     }
 
     private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
-        new android.support.v7.app.AlertDialog.Builder(ScanCode_Activity.this)
+        new android.support.v7.app.AlertDialog.Builder(ScanCode_Activity.this,R.style.AlertDialogStyle)
                 .setMessage(message)
                 .setPositiveButton("OK", okListener)
                 .setNegativeButton("Cancel", null)
@@ -235,7 +236,7 @@ public class ScanCode_Activity extends AppCompatActivity implements ZXingScanner
 
 
             if(status.equals("Fail")) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(ScanCode_Activity.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(ScanCode_Activity.this, R.style.AlertDialogStyle);
                 builder.setTitle("Scan Result");
                 builder.setPositiveButton("End", new DialogInterface.OnClickListener() {
                     @Override
@@ -244,9 +245,13 @@ public class ScanCode_Activity extends AppCompatActivity implements ZXingScanner
 
                     }
                 });
+
                 builder.setMessage("Class Has Been Locked");
+
                 AlertDialog alert1 = builder.create();
+
                 alert1.show();
+
 
 
 
@@ -309,7 +314,7 @@ public class ScanCode_Activity extends AppCompatActivity implements ZXingScanner
                                         Log.d("QRCodeScanner", result.getText());
                                         Log.d("QRCodeScanner", result.getBarcodeFormat().toString());
 
-                                        AlertDialog.Builder builder = new AlertDialog.Builder(ScanCode_Activity.this);
+                                        AlertDialog.Builder builder = new AlertDialog.Builder(ScanCode_Activity.this,R.style.AlertDialogStyle);
                                         builder.setTitle("Scan Result");
                                         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                             @Override
@@ -383,7 +388,7 @@ public class ScanCode_Activity extends AppCompatActivity implements ZXingScanner
                                                                 Log.d("QRCodeScanner", result.getText());
                                                                 Log.d("QRCodeScanner", result.getBarcodeFormat().toString());
 
-                                                                AlertDialog.Builder builder = new AlertDialog.Builder(ScanCode_Activity.this);
+                                                                AlertDialog.Builder builder = new AlertDialog.Builder(ScanCode_Activity.this,R.style.AlertDialogStyle);
                                                                 builder.setTitle("Scan Result");
                                                                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                                                     @Override
@@ -402,7 +407,7 @@ public class ScanCode_Activity extends AppCompatActivity implements ZXingScanner
                                                                 Log.d("QRCodeScanner", result.getText());
                                                                 Log.d("QRCodeScanner", result.getBarcodeFormat().toString());
 
-                                                                AlertDialog.Builder builder = new AlertDialog.Builder(ScanCode_Activity.this);
+                                                                AlertDialog.Builder builder = new AlertDialog.Builder(ScanCode_Activity.this,R.style.AlertDialogStyle);
                                                                 builder.setTitle("Scan Result");
                                                                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                                                     @Override
@@ -414,7 +419,10 @@ public class ScanCode_Activity extends AppCompatActivity implements ZXingScanner
 
                                                                 builder.setMessage("Attendance Already Taken :  " + classcode + " Mr " + name);
                                                                 AlertDialog alert1 = builder.create();
+                                                                //Button bq = alert1.getButton(DialogInterface.BUTTON_NEGATIVE);
+                                                                //bq.setBackgroundColor(Color.BLUE);
                                                                 alert1.show();
+
 
                                                             }
                                                         }
@@ -609,7 +617,7 @@ public class ScanCode_Activity extends AppCompatActivity implements ZXingScanner
 
 
                                     Toast.makeText(ScanCode_Activity.this,dataSnapshot.getKey(),Toast.LENGTH_LONG);
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(ScanCode_Activity.this);
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(ScanCode_Activity.this,R.style.AlertDialogStyle);
                                     builder.setTitle("Scan Result");
                                     builder.setPositiveButton("End", new DialogInterface.OnClickListener() {
                                         @Override
@@ -720,7 +728,7 @@ public class ScanCode_Activity extends AppCompatActivity implements ZXingScanner
                                             }
                                             if (text.equals("empty")) {
 
-                                                AlertDialog.Builder builder = new AlertDialog.Builder(ScanCode_Activity.this);
+                                                AlertDialog.Builder builder = new AlertDialog.Builder(ScanCode_Activity.this,R.style.AlertDialogStyle);
                                                 builder.setTitle("Scan Result");
                                                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                                     @Override
@@ -783,7 +791,7 @@ public class ScanCode_Activity extends AppCompatActivity implements ZXingScanner
 
 
 
-                                                                        AlertDialog.Builder builder = new AlertDialog.Builder(ScanCode_Activity.this);
+                                                                        AlertDialog.Builder builder = new AlertDialog.Builder(ScanCode_Activity.this,R.style.AlertDialogStyle);
                                                                         builder.setTitle("Scan Result");
                                                                         builder.setPositiveButton("Exit", new DialogInterface.OnClickListener() {
                                                                             @Override
@@ -861,7 +869,7 @@ public class ScanCode_Activity extends AppCompatActivity implements ZXingScanner
 
 
 
-                                                                                                    AlertDialog.Builder builder = new AlertDialog.Builder(ScanCode_Activity.this);
+                                                                                                    AlertDialog.Builder builder = new AlertDialog.Builder(ScanCode_Activity.this,R.style.AlertDialogStyle);
                                                                                                     builder.setTitle("Scan Result");
                                                                                                     builder.setPositiveButton("End", new DialogInterface.OnClickListener() {
                                                                                                         @Override
@@ -890,7 +898,7 @@ public class ScanCode_Activity extends AppCompatActivity implements ZXingScanner
 
 
                                                                                 } else{
-                                                                                    AlertDialog.Builder builder = new AlertDialog.Builder(ScanCode_Activity.this);
+                                                                                    AlertDialog.Builder builder = new AlertDialog.Builder(ScanCode_Activity.this,R.style.AlertDialogStyle);
                                                                                     builder.setTitle("Scan Result");
                                                                                     builder.setPositiveButton("Exit", new DialogInterface.OnClickListener() {
                                                                                         @Override
@@ -980,7 +988,7 @@ public class ScanCode_Activity extends AppCompatActivity implements ZXingScanner
                     }
 
                     else{
-                        AlertDialog.Builder builder = new AlertDialog.Builder(ScanCode_Activity.this);
+                        AlertDialog.Builder builder = new AlertDialog.Builder(ScanCode_Activity.this,R.style.AlertDialogStyle);
                         builder.setTitle("Scan Result");
                         builder.setPositiveButton("End", new DialogInterface.OnClickListener() {
                             @Override

@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.flash.yuvar.flashattendancesystem.Database.Subject_code;
 import com.flash.yuvar.flashattendancesystem.Database.lecture_profile_detail;
+import com.flash.yuvar.flashattendancesystem.Lecture.Lecture_Attendance_Table;
 import com.flash.yuvar.flashattendancesystem.Lecture.Lecture_Class_listcarry_Activity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -23,7 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 public class LectureMainActivity extends AppCompatActivity {
 
     private TextView lecture_id,lecture_pass,numberofclass,lecture_name;
-    private Button logout;
+    private Button logout,attendancetable;
     private FirebaseAuth firebaseAuth;
 
     private String lecturename;
@@ -42,6 +43,7 @@ public class LectureMainActivity extends AppCompatActivity {
 
 
         logout = findViewById (R.id.logout);
+        attendancetable = findViewById (R.id.attendancetable);
 
 
         firebaseAuth = FirebaseAuth.getInstance();
@@ -129,11 +131,23 @@ public class LectureMainActivity extends AppCompatActivity {
             }
         });
 
+        attendancetable.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                attendancetableopen();
+            }
+        });
 
 
 
 
 
+
+    }
+
+    private void attendancetableopen() {
+        Intent  i = new Intent (getApplicationContext (), Lecture_Attendance_Table.class);
+        startActivity (i);
     }
 
     private void viewClass() {

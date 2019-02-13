@@ -57,6 +57,9 @@ public class LoginActivity extends AppCompatActivity {
         else{
             studentID.setText(email);
             studentID.setEnabled(false);
+            studentpassword.setText("test1234");
+            studentpassword.setEnabled(false);
+            //validate(email,"test1234");
 
 
         }

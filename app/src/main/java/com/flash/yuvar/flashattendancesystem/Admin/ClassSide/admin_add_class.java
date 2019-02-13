@@ -182,6 +182,7 @@ public class admin_add_class extends AppCompatActivity {
 
 
             Toast.makeText (this,"Subject Added", Toast.LENGTH_LONG).show ();
+            finish();
 
         }else{
             loading.setVisibility (View.GONE);

@@ -112,7 +112,7 @@ public class student_absentclass_adapter extends  RecyclerView.Adapter<student_a
                         final String lecturepass = lecture.getPass();
 
 
-                        AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
+                        AlertDialog.Builder builder = new AlertDialog.Builder(ctx,R.style.AlertDialogStyle);
                         builder.setTitle("Password");
 
                         // Set up the input
@@ -174,7 +174,7 @@ public class student_absentclass_adapter extends  RecyclerView.Adapter<student_a
                                     });
 
 
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(ctx,R.style.AlertDialogStyle);
                                     builder.setTitle("Success");
                                     builder.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
                                         @Override
@@ -190,7 +190,7 @@ public class student_absentclass_adapter extends  RecyclerView.Adapter<student_a
                                     alert1.show();
 
                                 }else{
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(ctx,R.style.AlertDialogStyle);
                                     builder.setTitle("Failed");
                                     builder.setPositiveButton("End", new DialogInterface.OnClickListener() {
                                         @Override
@@ -242,7 +242,7 @@ public class student_absentclass_adapter extends  RecyclerView.Adapter<student_a
                         final String lecturepass = lecture.getPass();
 
 
-                        AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
+                        AlertDialog.Builder builder = new AlertDialog.Builder(ctx,R.style.AlertDialogStyle);
                         builder.setTitle("Password");
 
                         // Set up the input
@@ -307,7 +307,7 @@ public class student_absentclass_adapter extends  RecyclerView.Adapter<student_a
                                     });
 
 
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(ctx,R.style.AlertDialogStyle);
                                     builder.setTitle("Success");
                                     builder.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
                                         @Override
@@ -323,7 +323,7 @@ public class student_absentclass_adapter extends  RecyclerView.Adapter<student_a
                                     alert1.show();
 
                                 }else{
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(ctx,R.style.AlertDialogStyle);
                                     builder.setTitle("Failed");
                                     builder.setPositiveButton("End", new DialogInterface.OnClickListener() {
                                         @Override
@@ -375,7 +375,7 @@ public class student_absentclass_adapter extends  RecyclerView.Adapter<student_a
                         final String lecturepass = lecture.getPass();
 
 
-                        AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
+                        AlertDialog.Builder builder = new AlertDialog.Builder(ctx,R.style.AlertDialogStyle);
                         builder.setTitle("Password");
 
                         // Set up the input
@@ -437,7 +437,7 @@ public class student_absentclass_adapter extends  RecyclerView.Adapter<student_a
                                     });
 
 
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(ctx,R.style.AlertDialogStyle);
                                     builder.setTitle("Success");
                                     builder.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
                                         @Override
@@ -453,7 +453,7 @@ public class student_absentclass_adapter extends  RecyclerView.Adapter<student_a
                                     alert1.show();
 
                                 }else{
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(ctx,R.style.AlertDialogStyle);
                                     builder.setTitle("Failed");
                                     builder.setPositiveButton("End", new DialogInterface.OnClickListener() {
                                         @Override

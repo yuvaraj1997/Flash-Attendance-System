@@ -114,7 +114,7 @@ public class QRCode_Detail_Activity extends AppCompatActivity implements View.On
                 });
 
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(QRCode_Detail_Activity.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(QRCode_Detail_Activity.this,R.style.AlertDialogStyle);
                 builder.setTitle("Password");
 
                 // Set up the input
@@ -134,7 +134,7 @@ public class QRCode_Detail_Activity extends AppCompatActivity implements View.On
                         if(m_Text.compareTo(lecturepass)==0){
 
 
-                            AlertDialog.Builder builder = new AlertDialog.Builder(QRCode_Detail_Activity.this);
+                            AlertDialog.Builder builder = new AlertDialog.Builder(QRCode_Detail_Activity.this,R.style.AlertDialogStyle);
                             builder.setTitle("Success");
                             builder.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
                                 @Override
@@ -156,7 +156,7 @@ public class QRCode_Detail_Activity extends AppCompatActivity implements View.On
                             alert1.show();
 
                         }else{
-                            AlertDialog.Builder builder = new AlertDialog.Builder(QRCode_Detail_Activity.this);
+                            AlertDialog.Builder builder = new AlertDialog.Builder(QRCode_Detail_Activity.this,R.style.AlertDialogStyle);
                             builder.setTitle("Failed");
                             builder.setPositiveButton("End", new DialogInterface.OnClickListener() {
                                 @Override
